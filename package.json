@@ -1,0 +1,48 @@
+{
+  "name": "jst",
+  "version": "0.0.1",
+  "description": "A lib to help with document transformation, through an extended JSON schema.",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "jest --no-cache",
+    "lint": "eslint ./"
+  },
+  "engines": {
+    "node": ">=7.6"
+  },
+  "engineStrict": true,
+  "author": "Viswanath. Ct",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "jest": "^24.7.1"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "./.jest-coverage"
+  },
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viswanathct/jst.git"
+  },
+  "keywords": [
+    "document",
+    "transformation",
+    "extension",
+    "JSON",
+    "schema"
+  ],
+  "bugs": {
+    "url": "https://github.com/viswanathct/jst/issues"
+  },
+  "homepage": "https://github.com/viswanathct/jst#readme",
+  "dependencies": {
+    "date-fns": "^1.30.1",
+    "lazy-cache": "^2.0.2",
+    "luxon": "^1.13.2"
+  }
+}
