@@ -1,0 +1,7 @@
+# Exclude everthing...
+.*
+*
+**
+
+# except the src dir.
+!/src/**
