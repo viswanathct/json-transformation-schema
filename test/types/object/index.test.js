@@ -5,7 +5,7 @@
 describe('Type - object', () => {
 
 	/* Test Targets */
-	const jst = require('../../../src');
+	const jts = require('../../../src');
 
 	/* Helpers */
 
@@ -30,7 +30,7 @@ describe('Type - object', () => {
 			},
 		};
 
-		expect(jst.transformer(schema).transform(data)).toEqual({
+		expect(jts.transformer(schema).transform(data)).toEqual({
 			a: {
 				b: 1,
 			},

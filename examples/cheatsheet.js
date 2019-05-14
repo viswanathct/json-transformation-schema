@@ -5,11 +5,11 @@
 
 /* Imports */
 const { stringify } = JSON;
-const jst = require('../src');
+const jts = require('../src');
 
 /* Helpers */
 const { log, runExamples } = require('./helpers');
-const transformData = (data, transformation) => log(stringify(jst.transformer(transformation).transform(data)));
+const transformData = (data, transformation) => log(stringify(jts.transformer(transformation).transform(data)));
 
 /* Data */
 const data = {

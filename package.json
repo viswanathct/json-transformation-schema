@@ -1,7 +1,7 @@
 {
-  "name": "jst",
-  "version": "0.0.1",
-  "description": "A lib to help with document transformation, through an extended JSON schema.",
+  "name": "json-transformation-schema",
+  "version": "0.0.0",
+  "description": "A lib and a spec for document transformation, with extended JSON schema.",
   "main": "./src/index.js",
   "scripts": {
     "test": "jest --no-cache",
@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/viswanathct/jst.git"
+    "url": "git+https://github.com/viswanathct/json-transformation-schema.git"
   },
   "keywords": [
     "document",
@@ -37,9 +37,9 @@
     "schema"
   ],
   "bugs": {
-    "url": "https://github.com/viswanathct/jst/issues"
+    "url": "https://github.com/viswanathct/json-transformation-schema/issues"
   },
-  "homepage": "https://github.com/viswanathct/jst#readme",
+  "homepage": "https://github.com/viswanathct/json-transformation-schema#readme",
   "dependencies": {
     "date-fns": "^1.30.1",
     "lazy-cache": "^2.0.2",

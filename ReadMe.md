@@ -1,6 +1,6 @@
-# JST - JSON Schema Transformations
+# JTS - JSON Transformation Schema
 
-	A lib to help with document transformation, through an extended JSON schema.
+	A lib and a spec for document transformation, with extended JSON schema.
 
 ## The `Why`
 
@@ -9,7 +9,7 @@
 ## Example
 ```js
 /* A simple transformation. */
-const jst = require('jst');
+const jts = require('json-transformation-schema');
 const data = {
 	a: 1,
 }
@@ -25,14 +25,14 @@ const transformation = {
 	}
 }
 
-jst.transformer(transformation).transform(data);
+jts.transformer(transformation).transform(data);
 /* Gives
 {
 	a: "1",
 	b: 2,
 }
 ```
-**For more examples, check the [examples](https://github.com/viswanathct/jst/tree/master/examples) dir**.
+**For more examples, check the [examples](https://github.com/viswanathct/json-transformation-schema/tree/master/examples) dir**.
 ```sh
 # Or run the following (with node v8+):
 $ node ./examples/cheatsheet.js
@@ -40,7 +40,7 @@ $ node ./examples/cheatsheet.js
 
 ## Installation
 ```sh
-$ npm install jst
+$ npm install json-transformation-schema
 ```
 
 ## Use Cases
@@ -61,7 +61,7 @@ $ npm install jst
 
 * The tools doesn't intend to be a full fledged JSON Schema Validator, at least in the beginning.
 
-* The tools was written to support another project [jst](https://github.com/viswanathct/jst).
+* The tools was written to support another project [doctable](https://github.com/viswanathct/doctable).
 
 # Development
 
