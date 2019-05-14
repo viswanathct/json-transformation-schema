@@ -4,12 +4,12 @@
 */
 
 /* Imports */
-const { delimiter: defaultDelimiter } = require('../../costants/defaults');
+const { delimiter: defaultDelimiter } = require('../../constants/defaults');
 
 /* Exports */
 module.exports = {
 	parsers: {
 		string: (value, schema) =>
-			value.join(schema.delimiter !== undefined ? schema.delimiter : defaultDelimiter),
+			value.split(schema.delimiter !== undefined ? schema.delimiter : defaultDelimiter),
 	},
 };
