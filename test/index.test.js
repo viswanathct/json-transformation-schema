@@ -5,7 +5,7 @@
 describe('Functionalities of transform', () => {
 
 	/* Test Targets */
-	const jst = require('../src');
+	const jts = require('../src');
 
 	/* Helpers */
 
@@ -24,7 +24,7 @@ describe('Functionalities of transform', () => {
 			},
 		};
 
-		expect(jst.transformer(schema).transform(data)).toEqual({
+		expect(jts.transformer(schema).transform(data)).toEqual({
 			a: 1,
 		});
 	});
