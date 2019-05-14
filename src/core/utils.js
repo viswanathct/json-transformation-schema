@@ -3,12 +3,12 @@
  */
 
 /* Exports */
-const inferType = (val) => {
-	const type = typeof val;
+const inferType = (value) => {
+	const type = typeof value;
 
 	return type !== 'object' ? type
-		: val !== null
-			? val.constructor.name.toLowercase()
+		: value !== null
+			? value.constructor.name.toLowerCase()
 			: 'object';
 }
 
