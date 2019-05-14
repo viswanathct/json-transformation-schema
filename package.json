@@ -1,6 +1,6 @@
 {
   "name": "json-transformation-schema",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A lib and a spec for document transformation, with extended JSON schema.",
   "main": "./src/index.js",
   "scripts": {
