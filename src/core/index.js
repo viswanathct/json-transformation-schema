@@ -34,12 +34,12 @@ const detectType = (() => {
 const translate = (value, schema) => {
 	const inType = (schema.source || {}).type || inferType(value);
 	const outType = schema.transform;
-	const fakeTypeHandler = { parsers: {}, formaters: {} }
+	const fakeTypeHandler = { parsers: {}, formatters: {} }
 
 	if(!outType || inType === outType)
 		return value;
 
-	const translator = ((types[inType] || fakeTypeHandler).formaters|| {})[outType]
+	const translator = ((types[inType] || fakeTypeHandler).formatters|| {})[outType]
 		|| ((types[outType] || fakeTypeHandler).parsers || {})[inType];
 
 	return translator ? translator(value, schema) : value;
