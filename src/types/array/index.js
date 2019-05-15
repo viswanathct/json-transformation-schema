@@ -1,5 +1,5 @@
 /**
-* Type - Array
+* Type - array
 *
 */
 
