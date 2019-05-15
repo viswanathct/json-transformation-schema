@@ -35,7 +35,7 @@ describe('Type - number', () => {
 		});
 	});
 
-	test.skip('adheres to the prop, trim', async () => { // Enable the test, once trim is fixed.
+	test('adheres to the prop, trim', async () => { // Enable the test, once trim is fixed.
 
 		const someString = 'some string';
 		const data = {

@@ -19,7 +19,9 @@ const verifyParsing = (() => {
 
 	const schemaTemplate = {
 		properties: {
-			someProp: {},
+			someProp: {
+				source: {},
+			},
 		},
 	};
 
@@ -28,7 +30,7 @@ const verifyParsing = (() => {
 			comparisonPairs.forEach((comparisonPair) => {
 				const [inValue, parsedValue] = comparisonPair;
 				dataTemplate.someProp = inValue;
-				sourceType = sourceType // schemaTemplate.properties.someProp.source.type = sourceType; //TODO: Feed in the source types, instead of inferring the types, once the source-prop is fixed.
+				schemaTemplate.properties.someProp.source.type = sourceType;
 				schemaTemplate.properties.someProp.transform = targetType;
 
 				expect(jts.transformer(schemaTemplate).transform(dataTemplate)).toEqual({

@@ -76,7 +76,7 @@ $ sh ./setup.sh
 
 * Offer input validation.
 
-* Think of a simpler, less-verbose, non JSON schema mode. This might resemble the format used in doctable's render. This also could use wrapping functions, which act as schema builders.
+* Think of a simpler, less-verbose, non JSON schema mode. This could well be a separate package. This might resemble the format used in doctable's render. This also could use wrapping functions, which act as schema builders.
 
 * Fill any empty test cases.
 
