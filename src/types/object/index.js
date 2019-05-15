@@ -1,5 +1,5 @@
 /**
-* Type - Object
+* Type - object
 *
 */
 

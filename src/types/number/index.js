@@ -1,16 +1,17 @@
 /**
-* Type - String
+* Type - number
 *
 */
 
-/* Helpers */
-const { round } = Math;
+/* Imports */
+const { returnFirstParam, valueFn } = require('../../core/utils');
 
 /* Exports */
 module.exports = {
 	parsers: {
-		integer: (value) => round(value),
-		boolean: (value) => Boolean(value),
+		boolean: valueFn(Boolean),
+		integer: returnFirstParam,
 		null: () => 0,
+		string: valueFn(parseFloat),
 	},
 };

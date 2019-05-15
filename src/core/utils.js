@@ -9,7 +9,7 @@ const inferType = (value) => {
 	return type !== 'object' ? type
 		: value !== null
 			? value.constructor.name.toLowerCase()
-			: 'object';
+			: 'null';
 }
 
 const valueFn = (fn) => (value) => fn(value);
@@ -19,7 +19,6 @@ const returnNothing = () => {};
 const returnFirstParam = (x) => x;
 
 module.exports = {
-
 	inferType,
 	valueFn,
 	returnNothing,
