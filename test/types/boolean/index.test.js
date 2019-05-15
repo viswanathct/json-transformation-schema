@@ -11,7 +11,7 @@ describe('Type - boolean', () => {
 	const { entries } = Object;
 
 	/* Tests */
-	test('conversion of primitive types', async () => {
+	test('parsing values of various types', async () => {
 		const postiveValues = {
 			number: 1,
 			integer: 1,
