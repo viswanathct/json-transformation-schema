@@ -1,6 +1,7 @@
 /**
 * Type - array
 *
+* TODO: Write a transformation to handle array specific properties like, items.
 */
 
 /* Imports */

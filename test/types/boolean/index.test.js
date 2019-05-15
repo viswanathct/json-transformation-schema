@@ -40,6 +40,9 @@ describe('Type - boolean', () => {
 			const schemaTemplate = {
 				properties: {
 					someProp: {
+						source: {
+							type: 'is-reset-per-test',
+						},
 						transform: 'boolean',
 					},
 				},
@@ -47,7 +50,7 @@ describe('Type - boolean', () => {
 
 			entries(valueSet).forEach(([sourceType, value]) => {
 				dataTemplate.someProp = value;
-				// schemaTemplate.properties.someProp.source.type = sourceType; //TODO: Feed in the source types, instead of inferring the types, once the source-prop is fixed.
+				schemaTemplate.properties.someProp.source.type = sourceType;
 
 				expect(jts.transformer(schemaTemplate).transform(dataTemplate)).toEqual({
 					someProp: expectedConversion,
