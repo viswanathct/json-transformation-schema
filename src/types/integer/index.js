@@ -13,8 +13,8 @@ const { round } = Math;
 module.exports = {
 	parsers: {
 		number: (value) => round(value),
-		boolean: valueFn(Boolean),
-		null: () => 0,
+		boolean: (value) => value ? 1 : 0,
 		string: valueFn(parseInt),
+		null: () => 0,
 	},
 };

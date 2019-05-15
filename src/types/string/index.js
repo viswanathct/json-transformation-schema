@@ -16,8 +16,8 @@ module.exports = {
 		integer: toString,
 		number: toString,
 		boolean: toString,
-		object: valueFn(JSON.stringify),
 		null: () => '',
+		object: valueFn(JSON.stringify),
 		array: (value, schema) =>
 			value.join(schema.delimiter !== undefined ? schema.delimiter : defaultDelimiter),
 	},
