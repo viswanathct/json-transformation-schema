@@ -4,69 +4,44 @@
 
 describe('Type - object', () => {
 
-	/* Test Targets */
-	const jts = require('../../../src');
+	/* Helpers */
+	const { verifyTransformation } = require("../../test-helpers");
+
+	/* Data */
+	const fixedDate = new Date('2019-01-01T00:00:00.000Z');
 
 	/* Tests */
 	test('transform should transform strings to dates', async () => {
-		const data = {
-			someDate: new Date().toISOString(),
-		};
+		const data = fixedDate.toISOString();
+		const expectation = fixedDate;
 		const schema = {
-			properties:{
-				someDate: {
-					type: 'string',
-					transform: 'date',
-				},
-			},
+			type: 'string',
+			transform: 'date',
 		};
 
-		const transformed = jts.transformer(schema).transform(data).someDate;
-
-		expect(transformed).toBeInstanceOf(Date);
-		expect(isNaN(transformed)).toEqual(false);
+		verifyTransformation({data, schema, expectation});
 	});
 
 	test('transform should transform dates to strings', async () => {
-		const date = new Date();
-		const dateString = date.toISOString();
-
-		const data = {
-			someDate: date,
-		};
+		const data = fixedDate;
+		const expectation = fixedDate.toISOString();
 		const schema = {
-			properties:{
-				someDate: {
-					type: 'date',
-					transform: 'string',
-				},
-			},
+			type: 'date',
+			transform: 'string',
 		};
 
-		const transformed = jts.transformer(schema).transform(data).someDate;
-
-		expect(transformed).toEqual(dateString);
+		verifyTransformation({data, schema, expectation});
 	});
 
 	test('transform should transform dates to strings according to the given format', async () => {
-		const date = new Date();
-		const dateString = date.getUTCFullYear().toString();
-
-		const data = {
-			someDate: date,
-		};
+		const data = fixedDate;
+		const expectation = fixedDate.getUTCFullYear().toString();
 		const schema = {
-			properties:{
-				someDate: {
-					type: 'date',
-					transform: 'string',
-					format: 'yyyy',
-				},
-			},
+			type: 'date',
+			transform: 'string',
+			format: 'yyyy',
 		};
 
-		const transformed = jts.transformer(schema).transform(data).someDate;
-
-		expect(transformed).toEqual(dateString);
+		verifyTransformation({data, schema, expectation});
 	});
 });

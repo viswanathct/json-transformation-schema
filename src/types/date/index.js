@@ -12,9 +12,11 @@ const { dateFormat: defaultDateFormat } = require('../../constants/defaults');
 /* Exports */
 module.exports = {
 	parsers: {
-		string: (value, schema) => DateTime.fromFormat(value, schema.format || defaultDateFormat).toJSDate(),
+		string: (value, schema) =>
+			DateTime.fromFormat(value, schema.format || defaultDateFormat, {zone: 'utc'}).toJSDate(),
 	},
 	formatters: {
-		string: (value, schema) => DateTime.fromJSDate(value).toUTC().toFormat(schema.format || defaultDateFormat),
+		string: (value, schema) =>
+			DateTime.fromJSDate(value).toUTC().toFormat(schema.format || defaultDateFormat),
 	},
 };
