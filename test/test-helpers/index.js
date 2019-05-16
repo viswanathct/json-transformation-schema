@@ -3,6 +3,9 @@
  * Helper functions for testing.
  */
 
+/* Imports */
+const jts = require('../../src');
+
 /* Helpers */
 const { entries } = Object;
 
@@ -11,37 +14,28 @@ const expectMockCalls = (fn) => (expectation) =>
 	expect(fn.mock.calls).toEqual(expectation);
 
 const verifyParsing = (() => {
-	const jts = require('../../src');
-
-	const dataTemplate = {
-		someProp: '',
-	};
-
-	const schemaTemplate = {
-		properties: {
-			someProp: {
-				source: {},
-			},
-		},
-	};
-
 	return (targetType, conversions) =>
-		entries(conversions).forEach(([sourceType, comparisonPairs]) => {
-			comparisonPairs.forEach((comparisonPair) => {
-				const [inValue, parsedValue] = comparisonPair;
-				dataTemplate.someProp = inValue;
-				schemaTemplate.properties.someProp.source.type = sourceType;
-				schemaTemplate.properties.someProp.transform = targetType;
+		entries(conversions).forEach(([sourceType, conversionPairs]) => {
+			conversionPairs.forEach((conversionPair) => {
+				const [inValue, outValue] = conversionPair;
+				const schema = {
+					source: { type: sourceType },
+					transform: targetType,
+				};
 
-				expect(jts.transformer(schemaTemplate).transform(dataTemplate)).toEqual({
-					someProp: parsedValue,
-				});
+				expect(jts.transformer(schema).transform(inValue)).toEqual(outValue);
 			})
 		});
 })();
 
-module.exports = {
+const verifyTransformation = ({data, schema, expectation}) => {
+	const transformed = jts.transformer(schema).transform(data);
+	expect(transformed).toEqual(expectation);
+	return transformed;
+}
 
+module.exports = {
 	expectMockCalls,
 	verifyParsing,
+	verifyTransformation,
 }

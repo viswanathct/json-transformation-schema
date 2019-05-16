@@ -4,61 +4,36 @@
 
 describe('Type - boolean', () => {
 
-	/* Test Targets */
-	const jts = require('../../../src');
-
 	/* Helpers */
-	const { entries } = Object;
+	const { verifyParsing } = require("../../test-helpers");
 
 	/* Tests */
 	test('parsing values of various types', async () => {
-		const postiveValues = {
-			number: 1,
-			integer: 1,
-			string: 'non-empty-string',
-			array: ['not', 'empty'],
-			object: {
-				empty: false,
-			},
-		};
 
-		const negativeValues = {
-			number: 0,
-			integer: 0,
-			string: '',
-			array: [],
-			object: {},
-			null: null,
-		};
-
-		const testSet = (valueSet, expectedConversion) => {
-
-			const dataTemplate = {
-				someProp: '',
-			};
-
-			const schemaTemplate = {
-				properties: {
-					someProp: {
-						source: {
-							type: 'is-reset-per-test',
-						},
-						transform: 'boolean',
-					},
-				},
-			};
-
-			entries(valueSet).forEach(([sourceType, value]) => {
-				dataTemplate.someProp = value;
-				schemaTemplate.properties.someProp.source.type = sourceType;
-
-				expect(jts.transformer(schemaTemplate).transform(dataTemplate)).toEqual({
-					someProp: expectedConversion,
-				});
-			});
-		};
-
-		testSet(postiveValues, true);
-		testSet(negativeValues, false);
+		verifyParsing('boolean', {
+			number: [
+				[1, true],
+				[0, false],
+			],
+			integer: [
+				[1, true],
+				[0, false],
+			],
+			string: [
+				['non-empty-string', true],
+				['', false],
+			],
+			array: [
+				[['not', 'empty'], true],
+				[[], false],
+			],
+			object: [
+				[{ empty: false }, true],
+				[{}, false],
+			],
+			null: [
+				[null, false],
+			],
+		});
 	});
 });
