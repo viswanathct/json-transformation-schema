@@ -12,13 +12,7 @@ describe('Type - object', () => {
 	const { standardizeSchema } = require('../../../src/types/object');
 
 	/* Mocks and Stubs */
-	const data = {
-		single: 'single',
-		parent: {
-			child: 'child',
-		},
-		someNumber: 1,
-	}
+	const { data } = require('../../test-helpers/mocksAndStubs');
 
 	/* Tests */
 	test('transform should handle objects of type - object', async () => {

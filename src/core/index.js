@@ -12,7 +12,7 @@ const typesByPropMarkers = [
 ];
 
 /* Helpers */
-const { assign, keys } = Object;
+const { keys } = Object;
 
 const detectType = (() => {
 	const propMarkers = typesByPropMarkers.map((item) => item[0]);

@@ -7,17 +7,17 @@ describe('Functionality of the core', () => {
 	/* Test Targets */
 	const { standardizeSchema, transform } = require('../../src/core');
 
-	/* Tests */
+	/* Helpers */
+	const verifyTransformation = ({data, schema, expectation, info = ''}) => {
+		info && console.log(info);
+		const transformed = transform(data, standardizeSchema(schema)); //NOTE: The test helper, verifyTransformation could not be used, as the test is for a different function.
+		expect(transformed).toEqual(expectation);
+		return transformed;
+	}
 
+	/* Tests */
 	test('standardizeSchema adds default props and calls relevant type-handlers', async () => { //TODO: Write relevant tests.
 		standardizeSchema;
-	});
-
-	test('transform handles default options', async () => { //TODO: Write relevant tests.
-		transform;
-	});
-
-	test('transform delegates transformation to type-handlers', async () => {
 	});
 
 	test('transform handles flat schemas for primitive types', async () => {
@@ -39,8 +39,24 @@ describe('Functionality of the core', () => {
 				},
 			},
 		};
-		const expctation = data;
+		const expectation = data;
 
-		expect(transform(data, schema)).toEqual(expctation);
+		verifyTransformation({data, schema, expectation});
+	});
+
+	test('transform should handle type-agnostic config', async () => {
+		const data = {};
+		const schema = {
+			properties: {
+				a: {
+					default: 'default',
+				},
+			},
+		};
+		const expectation = {
+			a: 'default',
+		};
+
+		verifyTransformation({data, schema, expectation});
 	});
 });
