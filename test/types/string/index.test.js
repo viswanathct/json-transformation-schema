@@ -1,20 +1,16 @@
 /**
-* Testing the type - number.
+* Testing the type - string.
 */
 
-/* Test Targets */
-const jts = require('../../../src');
-
-describe('Type - number', () => {
+describe('Type - string', () => {
 
 	/* Helpers */
-	const { verifyParsing } = require("../../test-helpers");
+	const { verifyParsing, verifyTransformation } = require("../../test-helpers");
 
 	/* Tests */
 	test('parsing values of various types', async () => {
 
 		verifyParsing('string', {
-
 			number: [
 				[1, '1'],
 				[1.1, '1.1'],
@@ -29,28 +25,24 @@ describe('Type - number', () => {
 			null: [
 				[null, ''],
 			],
+			array: [
+				[['a', 'b'], 'a, b'],
+				[['a', 'b'], 'a|b', {
+					delimiter: '|',
+				}],
+			],
 			object: [
 				[{}, '{}'],
 			],
 		});
 	});
 
-	test('adheres to the prop, trim', async () => { // Enable the test, once trim is fixed.
+	test('adheres to the prop, trim', async () => {
 
-		const someString = 'some string';
-		const data = {
-			someProp: ' ' + someString,
-		};
-		const schema = {
-			properties:{
-				someProp: {
-					trim: true,
-				},
-			},
-		};
+		const expectation = 'some string';
+		const data = ' ' + expectation;
+		const schema = { trim: true };
 
-		const transformed = jts.transformer(schema).transform(data).someProp;
-
-		expect(transformed).toEqual(someString);
+		verifyTransformation({data, schema, expectation});
 	});
 });

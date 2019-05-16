@@ -2,46 +2,32 @@
  * Testing the type - array.
  */
 
-describe('Type - object', () => {
+describe('Type - array', () => {
 
-	/* Test Targets */
-	const jts = require('../../../src');
+	/* Helpers */
+	const { verifyTransformation } = require("../../test-helpers");
 
 	/* Tests */
 	test('transform should transform a default delimited string to an array', async () => {
-		const data = {
-			someProp: 'a, b',
-		};
+		const data = 'a, b';
 		const schema = {
-			properties:{
-				someProp: {
-					type: 'string',
-					transform: 'array',
-				},
-			},
+			type: 'string',
+			transform: 'array',
 		};
+		const expectation = ['a', 'b'];
 
-		const transformed = jts.transformer(schema).transform(data).someProp;
-
-		expect(transformed).toEqual(['a', 'b']);
+		verifyTransformation({ data, schema, expectation });
 	});
 
 	test('transform should transform a custom delimited string to an array', async () => {
-		const data = {
-			someProp: 'a|b',
-		};
+		const data = 'a|b';
 		const schema = {
-			properties:{
-				someProp: {
-					type: 'string',
-					transform: 'array',
-					delimiter: '|',
-				},
-			},
+			type: 'string',
+			transform: 'array',
+			delimiter: '|',
 		};
+		const expectation = ['a', 'b'];
 
-		const transformed = jts.transformer(schema).transform(data).someProp;
-
-		expect(transformed).toEqual(['a', 'b']);
+		verifyTransformation({ data, schema, expectation });
 	});
 });

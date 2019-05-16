@@ -17,15 +17,30 @@ describe('Functionality of the core', () => {
 		transform;
 	});
 
-	test('transform delegates transformation to type-handlers', async () => { //TODO: Write relevant tests.
-		transform;
+	test('transform delegates transformation to type-handlers', async () => {
 	});
 
 	test('transform handles flat schemas for primitive types', async () => {
 		expect(transform('1.1', { transform: 'integer' })).toEqual(1);
 	});
 
-	test('transform handles nessted schemas for complex types', async () => { //TODO: Write relevant tests.
-		transform;
+	test('transform handles nested schemas for complex types', async () => {
+		const data = {
+			a: {
+				b: 1,
+			},
+		};
+		const schema = {
+			properties: {
+				a: {
+					properties: {
+						b: {},
+					},
+				},
+			},
+		};
+		const expctation = data;
+
+		expect(transform(data, schema)).toEqual(expctation);
 	});
 });

@@ -19,7 +19,8 @@
   },
   "jest": {
     "collectCoverage": true,
-    "coverageDirectory": "./.jest-coverage"
+    "coverageDirectory": "./.jest-coverage",
+    "collectCoverageFrom": ["./src/**/*.js", "!./test/**"]
   },
   "directories": {
     "example": "examples",

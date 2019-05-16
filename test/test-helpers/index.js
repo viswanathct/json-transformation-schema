@@ -7,7 +7,7 @@
 const jts = require('../../src');
 
 /* Helpers */
-const { entries } = Object;
+const { assign, entries } = Object;
 
 /* Exports */
 const expectMockCalls = (fn) => (expectation) =>
@@ -17,11 +17,11 @@ const verifyParsing = (() => {
 	return (targetType, conversions) =>
 		entries(conversions).forEach(([sourceType, conversionPairs]) => {
 			conversionPairs.forEach((conversionPair) => {
-				const [inValue, outValue] = conversionPair;
-				const schema = {
+				const [inValue, outValue, schemaExtensions] = conversionPair;
+				const schema = assign({
 					source: { type: sourceType },
 					transform: targetType,
-				};
+				}, schemaExtensions);
 
 				expect(jts.transformer(schema).transform(inValue)).toEqual(outValue);
 			})
