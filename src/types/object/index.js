@@ -13,16 +13,16 @@ const { assign, entries, keys } = Object;
 /* Config */
 const schemaDefaults = {
 	preserve: false,
-	//TODO: Plan for a prop - items, that acts like Array.items.
 }
 
 /* Exports */
 module.exports = {
 	standardizeSchema: (schema) => {
 		const properties = {};
+		const itemsConfig = schema.items;
 
 		entries(schema.properties || {}).forEach(([prop, fieldSchema]) =>
-			properties[prop] = assign({ prop }, core.standardizeSchema(fieldSchema))
+			properties[prop] = assign({ prop }, itemsConfig, core.standardizeSchema(fieldSchema))
 		);
 
 		return assign({}, schemaDefaults, schema, { properties });

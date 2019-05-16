@@ -11,26 +11,30 @@ describe('Type - object', () => {
 	const jts = require('../../../src');
 	const { standardizeSchema } = require('../../../src/types/object');
 
+	/* Mocks and Stubs */
+	const data = {
+		single: 'single',
+		parent: {
+			child: 'child',
+		},
+		someNumber: 1,
+	}
+
 	/* Tests */
 	test('transform should handle objects of type - object', async () => {
-		const data = {
-			a: {
-				b: 1,
-			},
-		};
 		const schema = {
 			properties:{
-				a: {
+				parent: {
 					properties: {
-						b: {},
+						child: {},
 					},
 				},
 			},
 		};
 
 		expect(jts.transformer(schema).transform(data)).toEqual({
-			a: {
-				b: 1,
+			parent: {
+				child: 'child',
 			},
 		});
 	});
@@ -59,15 +63,8 @@ describe('Type - object', () => {
 
 	test('transformation should consider suitable meta properties', () => {
 
-		const data = {
-			single: 'single',
-			parent: {
-				child: 'child',
-			},
-		}
-
 		verifyTransformation({
-			info: 'Test that properties are not preserved by default.',
+			info: 'properties should not be preserved by default.',
 			data,
 			schema: {
 				properties: {
@@ -80,13 +77,28 @@ describe('Type - object', () => {
 		});
 
 		verifyTransformation({
-			info: 'Test that properties are preserved when the flag is set.',
+			info: 'properties should be preserved when the "preserve" config is set to true',
 			data,
 			schema: {
 				preserve: true,
-				properties: {},
 			},
 			expectation: data,
+		});
+
+		verifyTransformation({
+			info: 'configs from the items object should be applied to all the properties.',
+			data,
+			schema: {
+				items: {
+					transform: 'string',
+				},
+				properties: {
+					someNumber: {},
+				},
+			},
+			expectation: {
+				someNumber: '1',
+			},
 		});
 
 	});
