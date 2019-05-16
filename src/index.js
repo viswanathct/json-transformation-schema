@@ -1,5 +1,5 @@
 /**
-* JST
+* JTS - The main entrypoint.
 */
 
 /* Imports */

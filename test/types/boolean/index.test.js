@@ -28,7 +28,7 @@ describe('Type - boolean', () => {
 				[[], false],
 			],
 			object: [
-				[{ empty: false }, true],
+				[{ empty: false }, true, { properties: { empty: {} }}],
 				[{}, false],
 			],
 			null: [

@@ -4,6 +4,7 @@
 */
 
 /* Imports */
+const { select } = require('@laufire/utils').collection;
 const core = require('../../core');
 
 /* Helpers */
@@ -11,7 +12,7 @@ const { assign, entries, keys } = Object;
 
 /* Config */
 const schemaDefaults = {
-	preserve: true,
+	preserve: false,
 	//TODO: Plan for a prop - items, that acts like Array.items.
 }
 
@@ -29,7 +30,14 @@ module.exports = {
 	transform: (data, schema, options) => {
 		const ret = {};
 		const { properties = {} } = schema;
-		const propList = keys((schema.preserve !== false ? data : properties) || {});
+		const propList = keys(properties || {});
+
+		if(schema.preserve === true) {
+			const allProps = keys(data || {});
+			const untouchedProps = allProps.filter((prop) => !propList.includes(prop));
+			assign(ret, select(data, untouchedProps));
+		}
+
 		const propCount = propList.length;
 		let propIndex = 0;
 

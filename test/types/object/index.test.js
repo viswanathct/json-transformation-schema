@@ -4,6 +4,9 @@
 
 describe('Type - object', () => {
 
+	/* Helpers */
+	const { verifyTransformation } = require("../../test-helpers");
+
 	/* Test Targets */
 	const jts = require('../../../src');
 	const { standardizeSchema } = require('../../../src/types/object');
@@ -52,5 +55,39 @@ describe('Type - object', () => {
 		}
 
 		expect(standardizeSchema(schema).properties.field.prop).toEqual('some-other-field');
+	});
+
+	test('transformation should consider suitable meta properties', () => {
+
+		const data = {
+			single: 'single',
+			parent: {
+				child: 'child',
+			},
+		}
+
+		verifyTransformation({
+			info: 'Test that properties are not preserved by default.',
+			data,
+			schema: {
+				properties: {
+					single: {},
+				},
+			},
+			expectation: {
+				single: 'single',
+			},
+		});
+
+		verifyTransformation({
+			info: 'Test that properties are preserved when the flag is set.',
+			data,
+			schema: {
+				preserve: true,
+				properties: {},
+			},
+			expectation: data,
+		});
+
 	});
 });

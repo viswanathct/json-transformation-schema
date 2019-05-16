@@ -28,7 +28,8 @@ const verifyParsing = (() => {
 		});
 })();
 
-const verifyTransformation = ({data, schema, expectation}) => {
+const verifyTransformation = ({data, schema, expectation, info = ''}) => {
+	info && console.log(info);
 	const transformed = jts.transformer(schema).transform(data);
 	expect(transformed).toEqual(expectation);
 	return transformed;

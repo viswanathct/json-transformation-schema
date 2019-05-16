@@ -21,8 +21,8 @@ const transformation = {
 		b: {
 			prop: 'a',
 			transform: (val) => val + 1,
-		}
-	}
+		},
+	},
 }
 
 jts.transformer(transformation).transform(data);
@@ -51,9 +51,9 @@ $ npm install json-transformation-schema
 
 ## Keys
 
-* JST focuses on transformations, where as most JSON Schema implementations focus on validation.
+* JTS focuses on transformations, where as most JSON Schema implementations focus on validation.
 
-* JST is a superset of JSON Schema.
+* JTS is a superset of JSON Schema.
 
 * Structure the transformation document to resemble the final document, for easier development and maintenance.
 
@@ -79,6 +79,8 @@ $ sh ./setup.sh
 * Think of a simpler, less-verbose, non JSON schema mode. This could well be a separate package. This might resemble the format used in doctable's render. This also could use wrapping functions, which act as schema builders.
 
 * Fill any empty test cases.
+
+* Documention.
 
 * Fix the coverage number at 95%.
 
