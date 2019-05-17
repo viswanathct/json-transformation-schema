@@ -5,7 +5,7 @@
 describe('Type - array', () => {
 
 	/* Helpers */
-	const { verifyTransformation } = require("../../test-helpers");
+	const { verifyTransformation } = require('../../test-helpers');
 
 	/* Tests */
 	test('transform should transform a default delimited string to an array', async () => {
@@ -27,6 +27,19 @@ describe('Type - array', () => {
 			delimiter: '|',
 		};
 		const expectation = ['a', 'b'];
+
+		verifyTransformation({ data, schema, expectation });
+	});
+
+	test('transform should apply item configuratinn to all the elements.', async () => {
+		const data = ['1', '2', '3'];
+		const schema = {
+			type: 'array',
+			items: {
+				transform: 'integer',
+			},
+		};
+		const expectation = [1, 2, 3];
 
 		verifyTransformation({ data, schema, expectation });
 	});
