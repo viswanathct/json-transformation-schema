@@ -15,7 +15,7 @@ describe('Type - object', () => {
 	const complexData = require('../../test-helpers/mocksAndStubs').complex.data;
 
 	/* Tests */
-	test('transform should handle objects of type - object', async () => {
+	test('transform should handle objects of type - object', () => {
 		const schema = {
 			properties:{
 				parent: {
@@ -39,7 +39,7 @@ describe('Type - object', () => {
 		});
 	});
 
-	test('standardizeSchema adds missing prop config', async () => {
+	test('standardizeSchema adds missing prop config', () => {
 		const schema = {
 			properties: {
 				field: {},
@@ -49,7 +49,7 @@ describe('Type - object', () => {
 		expect(standardizeSchema(schema).properties.field.prop).toEqual('field');
 	});
 
-	test('standardizeSchema doesn\'t alter existing prop config', async () => {
+	test('standardizeSchema doesn\'t alter existing prop config', () => {
 		const schema = {
 			properties: {
 				field: {

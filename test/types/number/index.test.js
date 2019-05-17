@@ -8,7 +8,7 @@ describe('Type - number', () => {
 	const { verifyParsing } = require("../../test-helpers");
 
 	/* Tests */
-	test('parsing values of various types', async () => {
+	test('parsing values of various types', () => {
 
 		verifyParsing('number', {
 

@@ -11,7 +11,7 @@ describe('Type - object', () => {
 	const fixedDate = new Date('2019-01-01T00:00:00.000Z');
 
 	/* Tests */
-	test('transform should transform strings to dates', async () => {
+	test('transform should transform strings to dates', () => {
 		const data = fixedDate.toISOString();
 		const expectation = fixedDate;
 		const schema = {
@@ -22,7 +22,7 @@ describe('Type - object', () => {
 		verifyTransformation({data, schema, expectation});
 	});
 
-	test('transform should transform dates to strings', async () => {
+	test('transform should transform dates to strings', () => {
 		const data = fixedDate;
 		const expectation = fixedDate.toISOString();
 		const schema = {
@@ -33,7 +33,7 @@ describe('Type - object', () => {
 		verifyTransformation({data, schema, expectation});
 	});
 
-	test('transform should transform dates to strings according to the given format', async () => {
+	test('transform should transform dates to strings according to the given format', () => {
 		const data = fixedDate;
 		const expectation = fixedDate.getUTCFullYear().toString();
 		const schema = {

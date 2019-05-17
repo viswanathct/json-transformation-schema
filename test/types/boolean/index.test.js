@@ -8,7 +8,7 @@ describe('Type - boolean', () => {
 	const { verifyParsing } = require("../../test-helpers");
 
 	/* Tests */
-	test('parsing values of various types', async () => {
+	test('parsing values of various types', () => {
 
 		verifyParsing('boolean', {
 			number: [

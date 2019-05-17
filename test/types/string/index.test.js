@@ -8,7 +8,7 @@ describe('Type - string', () => {
 	const { verifyParsing, verifyTransformation } = require("../../test-helpers");
 
 	/* Tests */
-	test('parsing values of various types', async () => {
+	test('parsing values of various types', () => {
 
 		verifyParsing('string', {
 			number: [
@@ -37,7 +37,7 @@ describe('Type - string', () => {
 		});
 	});
 
-	test('adheres to the prop, trim', async () => {
+	test('adheres to the prop, trim', () => {
 
 		const expectation = 'some string';
 		const data = ' ' + expectation;

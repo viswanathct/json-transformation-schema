@@ -14,7 +14,7 @@ describe('Functionalities of transform', () => {
 	/* Setup */
 
 	/* Tests */
-	test('transform should handle simple transformations', async () => {
+	test('transform should handle simple transformations', () => {
 		const data = {
 			a: 1,
 		};

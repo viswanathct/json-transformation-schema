@@ -13,7 +13,7 @@ const logs = [];
 /* Exports */
 const log = (x) => logs.push(`\t${x}`);
 
-const runExamples = (examples, speed = 200) => call(async () => {
+const runExamples = (examples, speed = 200) => call(() => {
 	const exampleNames = keys(examples);
 	const count = exampleNames.length;
 	let i =0;
