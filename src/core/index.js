@@ -61,15 +61,15 @@ const standardizeSchema = (schema) => {
 	};
 }
 
-const transform = (value, schema, options) => {
+const transform = (value, schema, options) => { //TODO: Try compiling the flow using eval, so that every tranformation has its own function, without branching.
 	const source = schema.source;
 	const type = schema.type || inferType(value);
 
-	if(source) { //TODO: Try compiling the flow using eval, so that every tranformation has its own function, without branching.
+	if(source) {
 		value = transform(value, source, options);
 	}
 
-	if(value == undefined && schema.required)
+	if(schema.required && value === undefined)
 		throw new Exception(`Missing required field: ${field}`);
 
 	const typeHandler = types[type] || {};

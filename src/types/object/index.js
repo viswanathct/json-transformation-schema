@@ -27,8 +27,8 @@ module.exports = {
 		const { properties = {} } = schema;
 		const propList = keys(properties || {});
 
-		if(schema.preserve === true) {
-			const allProps = keys(data || {});
+		if(schema.preserve === true && data) {
+			const allProps = keys(data);
 			const untouchedProps = allProps.filter((prop) => !propList.includes(prop));
 			assign(ret, select(data, untouchedProps));
 		}
@@ -41,7 +41,7 @@ module.exports = {
 			const propSchema = properties[prop] || {};
 			const value = transform(data[propSchema.prop || prop], propSchema, options);
 
-			if(value !== undefined || !options.skipUndefined)
+			if(value !== undefined) //NOTE: To have undefined keys in the result, set the config - default to undefined.
 				ret[prop] = value;
 		}
 

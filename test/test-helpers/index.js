@@ -19,7 +19,7 @@ const verifyParsing = (() => {
 			conversionPairs.forEach((conversionPair) => {
 				const [inValue, outValue, schemaExtensions] = conversionPair;
 				const schema = assign({
-					source: { type: sourceType },
+					source: { type: sourceType, preserve: true },
 					transform: targetType,
 				}, schemaExtensions);
 
