@@ -7,26 +7,28 @@ const { inferType } = require('./utils');
 const types = require('../types');
 
 /* Data */
-const typesByPropMarkers = [
+const typesByConfigMarkers = [
 	['properties', 'object'],
+	['items', 'array'], //NOTE: Though objects too could have the items config, arrays are considered to be the primary user.
 ];
 
 /* Helpers */
 const { keys } = Object;
 
 const detectType = (() => {
-	const propMarkers = typesByPropMarkers.map((item) => item[0]);
-	const types = typesByPropMarkers.map((item) => item[1]);
+	const typeMarkers = typesByConfigMarkers.map((item) => item[0]);
+	const types = typesByConfigMarkers.map((item) => item[1]);
 
 	return (schema) => {
 		const props = keys(schema);
-		const l = props.length;
+		const l = typeMarkers.length;
 		let i = 0;
 
 		while(i < l) {
-			const index = propMarkers.findIndex(val => val === props[i++]);
-			if(index > -1)
-				return types[index];
+			const marker = typeMarkers[i++];
+			const matchingPropIndex = props.findIndex(val => val === marker);
+			if(matchingPropIndex > -1)
+				return types[typeMarkers.indexOf(props[matchingPropIndex])];
 		}
 	}
 })();
@@ -54,8 +56,8 @@ const standardizeSchema = (schema) => {
 	return {
 		...(type ? { type: type } : {}),
 		...schema,
+		...(source ? { source: standardizeSchema(source) } : {} ),
 		...(standardizeTypeSchema ? standardizeTypeSchema(schema) : {}),
-		...(source ? { source: standardizeSchema(source) } : {}), //TODO: This could be a hinderance, if the types wanted to modify the source prop. This could be remedied by working over the clone of the root schema.
 	};
 }
 

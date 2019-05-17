@@ -4,11 +4,8 @@
 */
 
 /* Imports */
-const { select } = require('@laufire/utils').collection;
-const core = require('../../core');
-
-/* Helpers */
-const { assign, entries, keys } = Object;
+const { assign, collect, keys, select } = require('@laufire/utils').collection;
+const { standardizeSchema, transform } = require('../../core');
 
 /* Config */
 const schemaDefaults = {
@@ -18,11 +15,9 @@ const schemaDefaults = {
 /* Exports */
 module.exports = {
 	standardizeSchema: (schema) => {
-		const properties = {};
 		const itemsConfig = schema.items;
-
-		entries(schema.properties || {}).forEach(([prop, fieldSchema]) =>
-			properties[prop] = assign({ prop }, itemsConfig, core.standardizeSchema(fieldSchema))
+		const properties = collect(schema.properties || {}, (propSchema, prop) =>
+			assign({ prop }, itemsConfig, standardizeSchema(propSchema))
 		);
 
 		return assign({}, schemaDefaults, schema, { properties });
@@ -44,7 +39,7 @@ module.exports = {
 		while(propIndex < propCount) {
 			const prop = propList[propIndex++];
 			const propSchema = properties[prop] || {};
-			const value = core.transform(data[propSchema.prop || prop], propSchema, options);
+			const value = transform(data[propSchema.prop || prop], propSchema, options);
 
 			if(value !== undefined || !options.skipUndefined)
 				ret[prop] = value;
