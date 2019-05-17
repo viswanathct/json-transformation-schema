@@ -1,5 +1,4 @@
 /**
- *
  * Helper functions for testing.
  */
 
@@ -13,9 +12,22 @@ const { assign, entries } = Object;
 const expectMockCalls = (fn) => (expectation) =>
 	expect(fn.mock.calls).toEqual(expectation);
 
-const verifyParsing = (() => {
-	return (targetType, conversions) =>
-		entries(conversions).forEach(([sourceType, conversionPairs]) => {
+const verifyParsing = (targetType, conversions) =>
+	entries(conversions).forEach(([sourceType, conversionPairs]) => {
+		conversionPairs.forEach((conversionPair) => {
+			const [inValue, outValue, schemaExtensions] = conversionPair;
+			const schema = assign({
+				source: { type: sourceType, preserve: true },
+				transform: targetType,
+			}, schemaExtensions);
+
+			expect(jts.transformer(schema).transform(inValue)).toEqual(outValue);
+		})
+	});
+
+const generateParsingTests = (targetType, conversions) =>
+	entries(conversions).map(([sourceType, conversionPairs]) =>
+		test(`type - ${targetType} parses type - ${sourceType}`, () =>
 			conversionPairs.forEach((conversionPair) => {
 				const [inValue, outValue, schemaExtensions] = conversionPair;
 				const schema = assign({
@@ -25,8 +37,7 @@ const verifyParsing = (() => {
 
 				expect(jts.transformer(schema).transform(inValue)).toEqual(outValue);
 			})
-		});
-})();
+		));
 
 const verifyTransformation = ({data, schema, expectation, desc = ''}) => {
 	desc && console.log(desc);
@@ -35,8 +46,16 @@ const verifyTransformation = ({data, schema, expectation, desc = ''}) => {
 	return transformed;
 }
 
+const generateTransformationTest = ({data, schema, expectation, desc = ''}) =>
+	test(desc, () => {
+		const transformed = jts.transformer(schema).transform(data);
+		expect(transformed).toEqual(expectation);
+	});
+
 module.exports = {
 	expectMockCalls,
 	verifyParsing,
+	generateParsingTests,
 	verifyTransformation,
+	generateTransformationTest,
 }
