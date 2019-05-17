@@ -3,11 +3,12 @@
 */
 
 /* Imports */
+const { clone } = require('@laufire/utils').collection;
 const { standardizeSchema, transform } = require('./core');
 
 /* Exports */
 const transformer = (schema, options = {}) => {
-	schema = standardizeSchema(schema); //TODO: Clone the intial schema, so that mutations won't be a concern.
+	schema = standardizeSchema(clone(schema));
 
 	return {
 		transform: (data) => transform(data, schema, options),
