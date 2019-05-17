@@ -39,7 +39,7 @@ describe('Type - object', () => {
 		});
 	});
 
-	test('standardizeSchema should add a missing prop', async () => {
+	test('standardizeSchema adds missing prop config', async () => {
 		const schema = {
 			properties: {
 				field: {},
@@ -49,7 +49,7 @@ describe('Type - object', () => {
 		expect(standardizeSchema(schema).properties.field.prop).toEqual('field');
 	});
 
-	test('standardizeSchema should not alter any existing prop', async () => {
+	test('standardizeSchema doesn\'t alter existing prop config', async () => {
 		const schema = {
 			properties: {
 				field: {
@@ -61,10 +61,10 @@ describe('Type - object', () => {
 		expect(standardizeSchema(schema).properties.field.prop).toEqual('some-other-field');
 	});
 
-	test('transformation should consider suitable meta properties', () => {
+	test('transformation handles various configs as described', () => {
 
 		verifyTransformation({
-			info: 'properties should not be preserved by default.',
+			desc: 'properties aren\'t preserved by default',
 			data: complexData,
 			schema: {
 				properties: {
@@ -77,7 +77,7 @@ describe('Type - object', () => {
 		});
 
 		verifyTransformation({
-			info: 'properties should be preserved when the "preserve" config is set to true',
+			desc: 'properties are preserved when the "preserve" config is set to true',
 			data: complexData,
 			schema: {
 				preserve: true,
@@ -86,7 +86,7 @@ describe('Type - object', () => {
 		});
 
 		verifyTransformation({
-			info: 'configs from the items object should be applied to all the properties.',
+			desc: 'configs from the items object are applied to all the properties',
 			data: complexData,
 			schema: {
 				items: {
@@ -101,5 +101,18 @@ describe('Type - object', () => {
 			},
 		});
 
+		verifyTransformation({
+			desc: 'object transformation allows the access of decendant values',
+			data: complexData,
+			schema: {
+				type: 'object',
+				properties: {
+					grandChild: {
+						prop: 'parent/child/grandChild',
+					},
+				},
+			},
+			expectation: {grandChild: 'grandChild'},
+		});
 	});
 });
