@@ -8,7 +8,7 @@ const { standardizeSchema, transform } = require('./core');
 
 /* Exports */
 const transformer = (schema, options = {}) => {
-	schema = standardizeSchema(clone(schema));
+	schema = standardizeSchema(clone(schema), options);
 
 	return {
 		transform: (data) => transform(data, schema, options),

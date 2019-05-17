@@ -72,17 +72,17 @@ $ sh ./setup.sh
 
 ## ToDo
 
-* Allow for default gobal options and type specific options.
-
-* Offer input validation.
-
 * Think of a simpler, less-verbose, non JSON schema mode. This could well be a separate package. This might resemble the format used in doctable's render. This also could use wrapping functions, which act as schema builders.
 
 * Fill any empty test cases.
 
+* Measure and improve performance.
+
 * Documention.
 
 * Fix the coverage number at 95%.
+
+* Offer input validation.
 
 * Add the support for one or more JSON Schema RFCs.
 

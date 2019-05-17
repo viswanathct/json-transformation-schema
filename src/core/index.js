@@ -21,11 +21,11 @@ const detectType = (() => {
 
 	return (schema) => {
 		const props = keys(schema);
-		const l = typeMarkers.length;
-		let i = 0;
+		const typeMarkerCount = typeMarkers.length;
+		let typeMarkerIndex = 0;
 
-		while(i < l) {
-			const marker = typeMarkers[i++];
+		while(typeMarkerIndex < typeMarkerCount) {
+			const marker = typeMarkers[typeMarkerIndex++];
 			const matchingPropIndex = props.findIndex(val => val === marker);
 			if(matchingPropIndex > -1)
 				return types[typeMarkers.indexOf(props[matchingPropIndex])];
@@ -48,16 +48,17 @@ const translate = (value, schema, type) => {
 }
 
 /* Exports */
-const standardizeSchema = (schema) => {
+const standardizeSchema = (schema, options = {}) => {
 	const { source } = schema;
 	const type = schema.type || detectType(schema);
 	const standardizeTypeSchema = (types[type] || {}).standardizeSchema;
 
 	return {
-		...(type ? { type: type } : {}),
+		...options.defaults,
+		...(type && { type, ...((options.typeDefaults || {})[type]) }),
 		...schema,
-		...(source ? { source: standardizeSchema(source) } : {} ),
-		...(standardizeTypeSchema ? standardizeTypeSchema(schema) : {}),
+		...(source && { source: standardizeSchema(source, options) }),
+		...(standardizeTypeSchema && standardizeTypeSchema(schema, options)),
 	};
 }
 

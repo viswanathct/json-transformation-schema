@@ -14,10 +14,10 @@ const schemaDefaults = {
 
 /* Exports */
 module.exports = {
-	standardizeSchema: (schema) => {
+	standardizeSchema: (schema, options) => {
 		const itemsConfig = schema.items;
 		const properties = collect(schema.properties || {}, (propSchema, prop) =>
-			assign({ prop }, itemsConfig, standardizeSchema(propSchema))
+			assign({ prop }, itemsConfig, standardizeSchema(propSchema, options))
 		);
 
 		return assign({}, schemaDefaults, schema, { properties });

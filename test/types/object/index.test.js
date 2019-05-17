@@ -12,7 +12,7 @@ describe('Type - object', () => {
 	const { standardizeSchema } = require('../../../src/types/object');
 
 	/* Mocks and Stubs */
-	const { complexObject } = require('../../test-helpers/mocksAndStubs');
+	const complexData = require('../../test-helpers/mocksAndStubs').complex.data;
 
 	/* Tests */
 	test('transform should handle objects of type - object', async () => {
@@ -30,7 +30,7 @@ describe('Type - object', () => {
 			},
 		};
 
-		expect(jts.transformer(schema).transform(complexObject)).toEqual({
+		expect(jts.transformer(schema).transform(complexData)).toEqual({
 			parent: {
 				child: {
 					grandChild: 'grandChild',
@@ -65,7 +65,7 @@ describe('Type - object', () => {
 
 		verifyTransformation({
 			info: 'properties should not be preserved by default.',
-			data: complexObject,
+			data: complexData,
 			schema: {
 				properties: {
 					single: {},
@@ -78,16 +78,16 @@ describe('Type - object', () => {
 
 		verifyTransformation({
 			info: 'properties should be preserved when the "preserve" config is set to true',
-			data: complexObject,
+			data: complexData,
 			schema: {
 				preserve: true,
 			},
-			expectation: complexObject,
+			expectation: complexData,
 		});
 
 		verifyTransformation({
 			info: 'configs from the items object should be applied to all the properties.',
-			data: complexObject,
+			data: complexData,
 			schema: {
 				items: {
 					transform: 'string',
