@@ -89,3 +89,12 @@ $ sh ./setup.sh
 * Test against the [official JSON Schema Test Suite](https://github.com/json-schema-org/JSON-Schema-Test-Suite).
 
 * Benchmark the validator with [JSON Schema Benchmark](https://github.com/ebdrup/json-schema-benchmark).
+
+# DevNotes
+
+* The reason for throwing errors, instead of collecting them are many:
+	* It reduces the learning curve for new comers.
+	* It makes extending the core easy.
+	* It makes the implementation easier.
+	* The lib concentrates on transformation, rather than validation.
+	* If needed a collection mechanism could be added later, when the lib becomes stable, or when needed.

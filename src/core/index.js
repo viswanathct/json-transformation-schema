@@ -4,8 +4,10 @@
 
 /* Imports */
 const { result } = require('@laufire/utils').collection;
+
 const { inferType } = require('./utils');
 const types = require('../types');
+const error = require('./errors');
 
 /* Data */
 const typesByConfigMarkers = [
@@ -73,7 +75,7 @@ const transform = (value, schema, options) => { //TODO: Try compiling the flow u
 	value = schema.prop ? result(value, schema.prop) : value;
 
 	if(schema.required && value === undefined)
-		throw new Error(schema.prop ? `Missing required prop: ${schema.prop}` : 'Missing required value');
+		throw new error.MissingRequired(schema.prop ? `Missing required prop: ${schema.prop}` : 'Missing required value');
 
 	const type = schema.type || inferType(value);
 	const typeHandler = types[type] || {};

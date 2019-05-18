@@ -16,6 +16,9 @@ describe('Functionality of the core', () => {
 		return transformed;
 	}
 
+	/* Data */
+	const errors = require('../../src/core/errors');
+
 	/* Mocks and Stubs */
 	const mns = require('../test-helpers/mocksAndStubs');
 
@@ -122,6 +125,6 @@ describe('Functionality of the core', () => {
 		};
 		const transformation = () => transform(data, standardizeSchema(schema));
 
-		expect(transformation).toThrow(Error);
+		expect(transformation).toThrow(errors.MissingRequired);
 	});
 });
