@@ -4,7 +4,7 @@
 */
 
 /* Imports */
-const { assign, collect, keys, select, result } = require('@laufire/utils').collection;
+const { assign, collect, keys, select } = require('@laufire/utils').collection;
 const { standardizeSchema, transform } = require('../../core');
 
 /* Config */
@@ -39,7 +39,7 @@ module.exports = {
 		while(propIndex < propCount) {
 			const prop = propList[propIndex++];
 			const propSchema = properties[prop] || {};
-			const value = transform(result(data, propSchema.prop || prop), propSchema, options);
+			const value = transform(data, propSchema, options);
 
 			if(value !== undefined) //NOTE: To have undefined keys in the result, set the config - default to undefined.
 				ret[prop] = value;

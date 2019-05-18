@@ -3,6 +3,7 @@
 */
 
 /* Imports */
+const { result } = require('@laufire/utils').collection;
 const { inferType } = require('./utils');
 const types = require('../types');
 
@@ -64,15 +65,17 @@ const standardizeSchema = (schema, options = {}) => {
 
 const transform = (value, schema, options) => { //TODO: Try compiling the flow using eval, so that every tranformation has its own function, without branching.
 	const source = schema.source;
-	const type = schema.type || inferType(value);
 
 	if(source) {
 		value = transform(value, source, options);
 	}
 
+	value = schema.prop ? result(value, schema.prop) : value;
+
 	if(schema.required && value === undefined)
 		throw new Exception(`Missing required field: ${field}`);
 
+	const type = schema.type || inferType(value);
 	const typeHandler = types[type] || {};
 	if(typeHandler.transform)
 		value = typeHandler.transform(value, schema, options);

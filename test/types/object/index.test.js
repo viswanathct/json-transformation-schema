@@ -98,18 +98,4 @@ describe('Type - object', () => {
 			someNumber: '1',
 		},
 	});
-
-	generateTransformationTest({
-		desc: 'object transformation allows the access of decendant values',
-		data: complexData,
-		schema: {
-			type: 'object',
-			properties: {
-				grandChild: {
-					prop: 'parent/child/grandChild',
-				},
-			},
-		},
-		expectation: {grandChild: 'grandChild'},
-	});
 });

@@ -24,7 +24,7 @@ describe('Functionality of the core', () => {
 		standardizeSchema;
 	});
 
-	test.only('standardizeSchema options.defaults to all sub-schemas, without overriding config', () => {
+	test('standardizeSchema options.defaults to all sub-schemas, without overriding config', () => {
 		const schema = clone(mns.mixed.schema);
 
 		expect(schema.properties.a.type).toEqual('integer');
@@ -41,7 +41,7 @@ describe('Functionality of the core', () => {
 		expect(standardizedSchema.properties.b.type).toEqual('number');
 	});
 
-	test.only('standardizeSchema options.typeDefaults to the sub-schemas of the given type, without overriding config', () => {
+	test('standardizeSchema options.typeDefaults to the sub-schemas of the given type, without overriding config', () => {
 		const schema = clone(mns.mixed.schema);
 		const minValue = 5;
 
@@ -81,7 +81,7 @@ describe('Functionality of the core', () => {
 		verifyTransformation({data, schema, expectation});
 	});
 
-	test('transform should handle type-agnostic config', () => {
+	test('some config are type-agnostic, they apply for all types', () => {
 		const data = {};
 		const schema = {
 			properties: {
@@ -93,6 +93,16 @@ describe('Functionality of the core', () => {
 		const expectation = {
 			a: 'default',
 		};
+
+		verifyTransformation({data, schema, expectation});
+	});
+
+	test('transformation allows the access of decendant values', () => {
+		const data = mns.complex.data;
+		const schema = {
+			prop: 'parent/child/grandChild',
+		};
+		const expectation = 'grandChild';
 
 		verifyTransformation({data, schema, expectation});
 	});
