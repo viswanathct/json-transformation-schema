@@ -34,19 +34,19 @@ const detectType = (() => {
 	}
 })();
 
-const translate = (value, schema, type) => {
-	const inType = (schema.source || {}).type || type;
-	const outType = schema.transform;
-	const fakeTypeHandler = { parsers: {}, formatters: {} }
+const translate = (() => {
+	const fakeTypeHandler = { parsers: {}, formatters: {} };
 
-	if(!outType || inType === outType)
-		return value;
+	return  (value, schema, type) => {
+		const inType = (schema.source || {}).type || type;
+		const outType = schema.transform;
 
-	const translator = ((types[inType] || fakeTypeHandler).formatters|| {})[outType]
-		|| ((types[outType] || fakeTypeHandler).parsers || {})[inType];
+		const translator = ((types[inType] || fakeTypeHandler).formatters|| {})[outType]
+			|| ((types[outType] || fakeTypeHandler).parsers || {})[inType];
 
-	return translator ? translator(value, schema) : value;
-}
+		return translator ? translator(value, schema) : value;
+	}
+})();
 
 /* Exports */
 const standardizeSchema = (schema, options = {}) => {
