@@ -106,4 +106,22 @@ describe('Functionality of the core', () => {
 
 		verifyTransformation({data, schema, expectation});
 	});
+
+	test('transformation throws an exception on missing required props', () => {
+		const data = mns.complex.data;
+		const schema = {
+			properties: {
+				parent: {
+					properties: {
+						undefinedProp: {
+							required: true,
+						},
+					},
+				},
+			},
+		};
+		const transformation = () => transform(data, standardizeSchema(schema));
+
+		expect(transformation).toThrow(Error);
+	});
 });

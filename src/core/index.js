@@ -73,7 +73,7 @@ const transform = (value, schema, options) => { //TODO: Try compiling the flow u
 	value = schema.prop ? result(value, schema.prop) : value;
 
 	if(schema.required && value === undefined)
-		throw new Exception(`Missing required field: ${field}`);
+		throw new Error(schema.prop ? `Missing required prop: ${schema.prop}` : 'Missing required value');
 
 	const type = schema.type || inferType(value);
 	const typeHandler = types[type] || {};
