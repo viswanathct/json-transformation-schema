@@ -45,7 +45,7 @@
   },
   "homepage": "https://github.com/viswanathct/json-transformation-schema#readme",
   "dependencies": {
-    "@laufire/utils": "0.0.8",
+    "@laufire/utils": "0.0.9",
     "lazy-cache": "^2.0.2",
     "luxon": "^1.13.2"
   }

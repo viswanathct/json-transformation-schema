@@ -35,8 +35,10 @@ describe('Functionalities of transform', () => {
 				a: {},
 			},
 		};
+		const transformation = () =>
+			jts.transformer(schema).transform(data)
 
-		expect(jts.transformer(schema).transform(data)).toEqual({
+		expect(transformation()).toEqual({
 			a: 1,
 		});
 	});
@@ -47,6 +49,15 @@ describe('Functionalities of transform', () => {
 				.transform(complex.data);
 
 		expect(transformation()).toEqual(undefined);
+	});
+
+	test('transform allows functions as schema', () => {
+		const functionAsSchema = (data) => data;
+		const transformation = () =>
+			jts.transformer(functionAsSchema)
+				.transform(simple.data);
+
+		expect(transformation()).toEqual(simple.data);
 	});
 
 	test('transform allows for custom types and type overrides through options', () => {
@@ -65,33 +76,30 @@ describe('Functionalities of transform', () => {
 				},
 			},
 		};
+		const transformation = () =>
+			jts.transformer(schema, { types: typeOverrides })
+				.transform(simple.data);
 
-		expect(
-			jts.transformer(schema, { types: typeOverrides }).transform(simple.data)
-		).toEqual({
+		expect(transformation()).toEqual({
 			a: 'custom type',
 		});
 	});
 
 
 	test('transform throws external errors, even when strict mode is set to false', () => {
-		const transformation = () =>
-			jts.transformer(
-				{
-					transform: () => { throw new Error() },
-				},
-				{ strict: false },
-			).transform(complex.data);
+		const transformation = () => jts.transformer(
+			{ transform: () => { throw new Error() } },
+			{ strict: false },
+		).transform(complex.data);
 
 		expect(transformation).toThrow(Error);
 	});
 
 	test('transform throws all errors when strict mode is set', () => {
-		const transformation = () =>
-			jts.transformer(
-				missingRequiredExceptionSchema,
-				{ strict: true },
-			).transform(complex.data);
+		const transformation = () => jts.transformer(
+			missingRequiredExceptionSchema,
+			{ strict: true }
+		).transform(complex.data);
 
 		expect(transformation).toThrow(errors.MissingRequired);
 	});

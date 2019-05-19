@@ -13,7 +13,7 @@ const typesByConfigMarkers = [
 
 /* Helpers */
 const { assign, clone, keys, result } = require('@laufire/utils').collection;
-const { inferType } = require('./utils');
+const { inferType, isFunction } = require('@laufire/utils').reflection;
 
 const detectType = (() => {
 	const typeMarkers = typesByConfigMarkers.map((item) => item[0]);
@@ -60,16 +60,19 @@ const standardizeOptions = (options) =>
  * @param {*} options - Standardized options.
  */
 const standardizeSchema = (schema, options) => {
+	if(isFunction(schema))
+		return { type: 'function', transform: schema }
+
 	const { source } = schema;
 	const type = schema.type || detectType(schema);
-	const standardizeTypeSchema = (options.types[type] || types[type] || {}).standardizeSchema;
+	const typeSchemaStandaridizer = (options.types[type] || types[type] || {}).standardizeSchema;
 
 	return {
 		...options.defaults,
 		...(type && { type, ...(options.typeDefaults)[type] }),
 		...schema,
 		...(source && { source: standardizeSchema(source, options) }),
-		...(standardizeTypeSchema && standardizeTypeSchema(schema, options)),
+		...(typeSchemaStandaridizer && typeSchemaStandaridizer(schema, options)),
 	};
 }
 
@@ -82,9 +85,8 @@ const standardizeSchema = (schema, options) => {
 const transform = (value, schema, options) => { //TODO: Try compiling the flow using eval, so that every tranformation has its own function, without branching.
 	const source = schema.source;
 
-	if(source) {
+	if(source)
 		value = transform(value, source, options);
-	}
 
 	value = schema.prop ? result(value, schema.prop) : value;
 

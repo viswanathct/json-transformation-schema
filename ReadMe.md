@@ -84,7 +84,11 @@ $ sh ./setup.sh
 
 * Offer input validation.
 
+* Compile the schemas into functions.
+
 * Add the support for one or more JSON Schema RFCs.
+
+* Separate the spec from the implementation. The spec would be just the basics, without addiotional functionality like defaults, type-customization, custm transform functions etc.Extendability should be provided through the implementation.
 
 * Test against the [official JSON Schema Test Suite](https://github.com/json-schema-org/JSON-Schema-Test-Suite).
 
