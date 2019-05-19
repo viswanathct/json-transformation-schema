@@ -11,8 +11,8 @@ describe('Functionalities of transform', () => {
 	const errors = require('../src/core/errors');
 
 	/* Mocks and Stubs*/
-	const mns = require('./test-helpers/mocksAndStubs');
-	const complexData = mns.complex.data;
+	const { simple, complex } = require('./test-helpers/mocksAndStubs');
+
 	const missingRequiredExceptionSchema = {
 		properties: {
 			parent: {
@@ -44,10 +44,35 @@ describe('Functionalities of transform', () => {
 	test('transform discards internal errors, when strict mode is not set', () => {
 		const transformation = () =>
 			jts.transformer(missingRequiredExceptionSchema)
-				.transform(complexData);
+				.transform(complex.data);
 
 		expect(transformation()).toEqual(undefined);
 	});
+
+	test('transform allows for custom types and type overrides through options', () => {
+		const schema = {
+			properties: {
+				a: {
+					type: 'integer',
+					transform: 'string',
+				},
+			},
+		};
+		const typeOverrides = {
+			integer: {
+				formatters: {
+					string: () => 'custom type',
+				},
+			},
+		};
+
+		expect(
+			jts.transformer(schema, { types: typeOverrides }).transform(simple.data)
+		).toEqual({
+			a: 'custom type',
+		});
+	});
+
 
 	test('transform throws external errors, even when strict mode is set to false', () => {
 		const transformation = () =>
@@ -56,7 +81,7 @@ describe('Functionalities of transform', () => {
 					transform: () => { throw new Error() },
 				},
 				{ strict: false },
-			).transform(complexData);
+			).transform(complex.data);
 
 		expect(transformation).toThrow(Error);
 	});
@@ -66,7 +91,7 @@ describe('Functionalities of transform', () => {
 			jts.transformer(
 				missingRequiredExceptionSchema,
 				{ strict: true },
-			).transform(complexData);
+			).transform(complex.data);
 
 		expect(transformation).toThrow(errors.MissingRequired);
 	});

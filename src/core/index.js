@@ -36,11 +36,14 @@ const detectType = (() => {
 const translate = (() => {
 	const fakeTypeHandler = { parsers: {}, formatters: {} };
 
-	return  (value, schema, type) => {
+	return  (type, value, schema, options) => {
 		const inType = (schema.source || {}).type || type;
 		const outType = schema.transform;
 
-		const translator = ((types[inType] || fakeTypeHandler).formatters|| {})[outType]
+		const translator =
+			((options.types[inType] || fakeTypeHandler).formatters || {})[outType]
+			|| ((options.types[outType] || fakeTypeHandler).parsers || {})[inType]
+			|| ((types[inType] || fakeTypeHandler).formatters || {})[outType]
 			|| ((types[outType] || fakeTypeHandler).parsers || {})[inType];
 
 		return translator ? translator(value, schema) : value;
@@ -96,8 +99,8 @@ const transform = (value, schema, options) => { //TODO: Try compiling the flow u
 	const transformation = schema.transform;
 	if(transformation) {
 		value = typeof transformation !== 'function'
-			? translate(value, schema, type)
-			: transformation(value, schema)
+			? translate(type, value, schema, options)
+			: transformation(value, schema, options)
 	}
 
 	if(value === undefined && schema.hasOwnProperty('default'))
