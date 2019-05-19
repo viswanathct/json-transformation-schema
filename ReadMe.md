@@ -79,6 +79,8 @@ $ sh ./setup.sh
 * Measure and improve performance.
 
 * Documention.
+	* JS-Doc comments to allow for IDE tips.
+	* Formal documentation with usecases and examples.
 
 * Fix the coverage number at 95%.
 
@@ -88,7 +90,7 @@ $ sh ./setup.sh
 
 * Add the support for one or more JSON Schema RFCs.
 
-* Separate the spec from the implementation. The spec would be just the basics, without addiotional functionality like defaults, type-customization, custm transform functions etc.Extendability should be provided through the implementation.
+* Separate the spec from the implementation. The spec would be just the basics, without addiotional functionality like defaults, type-customization, custm transform functions etc.Extendability should be provided through the implementation. IE: A pure spec schema, should be portable.
 
 * Test against the [official JSON Schema Test Suite](https://github.com/json-schema-org/JSON-Schema-Test-Suite).
 

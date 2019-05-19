@@ -25,7 +25,7 @@ module.exports = {
 	transform: (data, schema, options) => {
 		const ret = {};
 		const { properties = {} } = schema;
-		const propList = keys(properties || {});
+		const propList = keys(properties);
 
 		if(schema.preserve === true && data) {
 			const allProps = keys(data);

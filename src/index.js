@@ -12,13 +12,14 @@ const { standardizeOptions, standardizeSchema, transform } = require('./core');
 const errors = require('./core/errors');
 
 /* Exports */
+const core = require('./core');
+
 const transformer = (schema, options = {}) => {
 	options = standardizeOptions(options);
 	schema = standardizeSchema(clone(schema), options);
 
 	return {
 		transform: (data) => {
-
 			try {
 				return transform(data, schema, options);
 			}
@@ -31,5 +32,6 @@ const transformer = (schema, options = {}) => {
 }
 
 module.exports = {
+	core,
 	transformer,
 }

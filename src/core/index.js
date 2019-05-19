@@ -13,7 +13,7 @@ const typesByConfigMarkers = [
 
 /* Helpers */
 const { assign, clone, keys, result } = require('@laufire/utils').collection;
-const { inferType, isFunction } = require('@laufire/utils').reflection;
+const { inferType } = require('@laufire/utils').reflection;
 
 const detectType = (() => {
 	const typeMarkers = typesByConfigMarkers.map((item) => item[0]);
@@ -60,7 +60,7 @@ const standardizeOptions = (options) =>
  * @param {*} options - Standardized options.
  */
 const standardizeSchema = (schema, options) => {
-	if(isFunction(schema))
+	if(inferType(schema) == 'function') //NOTE: Async Functions aren't supported.
 		return { type: 'function', transform: schema }
 
 	const { source } = schema;
@@ -73,7 +73,7 @@ const standardizeSchema = (schema, options) => {
 		...schema,
 		...(source && { source: standardizeSchema(source, options) }),
 		...(typeSchemaStandaridizer && typeSchemaStandaridizer(schema, options)),
-	};
+	}
 }
 
 /**
@@ -109,7 +109,7 @@ const transform = (value, schema, options) => { //TODO: Try compiling the flow u
 		value = schema.default;
 
 	return value;
-};
+}
 
 module.exports = {
 	standardizeOptions,
