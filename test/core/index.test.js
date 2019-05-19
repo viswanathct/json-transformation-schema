@@ -9,9 +9,10 @@ describe('Functionality of the core', () => {
 
 	/* Helpers */
 	const { clone } = require('@laufire/utils').collection;
+	const { standardizeOptions } = require('../../src/core');
 	const verifyTransformation = ({data, schema, expectation, info = ''}) => {
 		info && console.log(info);
-		const transformed = transform(data, standardizeSchema(schema)); //NOTE: The test helper, verifyTransformation could not be used, as the test is for a different function.
+		const transformed = transform(data, standardizeSchema(schema, standardizedOptions), standardizedOptions); //NOTE: The test helper, verifyTransformation could not be used, as the test is for a different function.
 		expect(transformed).toEqual(expectation);
 		return transformed;
 	}
@@ -21,6 +22,7 @@ describe('Functionality of the core', () => {
 
 	/* Mocks and Stubs */
 	const mns = require('../test-helpers/mocksAndStubs');
+	const standardizedOptions = standardizeOptions({});
 
 	/* Tests */
 	test('standardizeSchema adds default props and calls relevant type-handlers', () => { //TODO: Write relevant tests.
@@ -34,11 +36,11 @@ describe('Functionality of the core', () => {
 		expect(schema.properties.b.type).toEqual('string');
 
 		delete schema.properties.b.type;
-		const standardizedSchema = standardizeSchema(schema, {
+		const standardizedSchema = standardizeSchema(schema, standardizeOptions({
 			defaults: {
 				type: 'number',
 			},
-		});
+		}));
 
 		expect(standardizedSchema.properties.a.type).toEqual('integer');
 		expect(standardizedSchema.properties.b.type).toEqual('number');
@@ -48,20 +50,24 @@ describe('Functionality of the core', () => {
 		const schema = clone(mns.mixed.schema);
 		const minValue = 5;
 
-		const standardizedSchema = standardizeSchema(schema, {
+		const standardizedSchema = standardizeSchema(schema, standardizeOptions({
 			typeDefaults: {
 				'integer': {
 					minValue,
 				},
 			},
-		});
+		}));
 
 		expect(standardizedSchema.properties.a.minValue).toEqual(minValue);
 		expect(standardizedSchema.properties.b.minValue).toEqual(undefined);
 	});
 
 	test('transform handles flat schemas for primitive types', () => {
-		expect(transform('1.1', { transform: 'integer' })).toEqual(1);
+		const data = '1.1';
+		const schema = { transform: 'integer' };
+		const expectation = 1;
+
+		verifyTransformation({data, schema, expectation});
 	});
 
 	test('transform handles nested schemas for complex types', () => {
@@ -123,7 +129,7 @@ describe('Functionality of the core', () => {
 				},
 			},
 		};
-		const transformation = () => transform(data, standardizeSchema(schema));
+		const transformation = () => transform(data, standardizeSchema(schema, standardizedOptions), standardizedOptions);
 
 		expect(transformation).toThrow(errors.MissingRequired);
 	});

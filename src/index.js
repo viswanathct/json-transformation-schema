@@ -6,15 +6,14 @@
 const { clone } = require('@laufire/utils').collection;
 
 /* Helpers */
-const { standardizeSchema, transform } = require('./core');
+const { standardizeOptions, standardizeSchema, transform } = require('./core');
 
 /* Data */
 const errors = require('./core/errors');
-const { transformerOptions: defaultTransformerOptions } = require('./constants/defaults');
 
 /* Exports */
-const transformer = (schema, options) => {
-	options = clone(options || defaultTransformerOptions);
+const transformer = (schema, options = {}) => {
+	options = standardizeOptions(options);
 	schema = standardizeSchema(clone(schema), options);
 
 	return {

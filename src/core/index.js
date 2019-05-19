@@ -1,22 +1,19 @@
 /**
-* Helpers
+* The Core
 */
 
-/* Imports */
-const { result } = require('@laufire/utils').collection;
-
-const { inferType } = require('./utils');
+/* Data */
+const { transformerOptions: defaultTransformerOptions } = require('../constants/defaults');
 const types = require('../types');
 const error = require('./errors');
-
-/* Data */
 const typesByConfigMarkers = [
 	['properties', 'object'],
 	['items', 'array'], //NOTE: Though objects too could have the items config, arrays are considered to be the primary user.
 ];
 
 /* Helpers */
-const { keys } = Object;
+const { assign, clone, keys, result } = require('@laufire/utils').collection;
+const { inferType } = require('./utils');
 
 const detectType = (() => {
 	const typeMarkers = typesByConfigMarkers.map((item) => item[0]);
@@ -51,20 +48,34 @@ const translate = (() => {
 })();
 
 /* Exports */
-const standardizeSchema = (schema, options = {}) => {
+const standardizeOptions = (options) =>
+	assign(clone(defaultTransformerOptions), clone(options));
+
+/**
+ *
+ * @param {*} schema - The schema to standardize.
+ * @param {*} options - Standardized options.
+ */
+const standardizeSchema = (schema, options) => {
 	const { source } = schema;
 	const type = schema.type || detectType(schema);
-	const standardizeTypeSchema = (types[type] || {}).standardizeSchema;
+	const standardizeTypeSchema = (options.types[type] || types[type] || {}).standardizeSchema;
 
 	return {
 		...options.defaults,
-		...(type && { type, ...((options.typeDefaults || {})[type]) }),
+		...(type && { type, ...(options.typeDefaults)[type] }),
 		...schema,
 		...(source && { source: standardizeSchema(source, options) }),
 		...(standardizeTypeSchema && standardizeTypeSchema(schema, options)),
 	};
 }
 
+/**
+ *
+ * @param {*} value - The value to transform.
+ * @param {*} schema - A standardized schema to base the transformation on.
+ * @param {*} options - Standardized options for the transformation.
+ */
 const transform = (value, schema, options) => { //TODO: Try compiling the flow using eval, so that every tranformation has its own function, without branching.
 	const source = schema.source;
 
@@ -78,7 +89,7 @@ const transform = (value, schema, options) => { //TODO: Try compiling the flow u
 		throw new error.MissingRequired(schema.prop ? `Missing required prop: ${schema.prop}` : 'Missing required value');
 
 	const type = schema.type || inferType(value);
-	const typeHandler = types[type] || {};
+	const typeHandler = options.types[type] || types[type] || {};
 	if(typeHandler.transform)
 		value = typeHandler.transform(value, schema, options);
 
@@ -96,6 +107,7 @@ const transform = (value, schema, options) => { //TODO: Try compiling the flow u
 };
 
 module.exports = {
+	standardizeOptions,
 	standardizeSchema,
 	transform,
 }

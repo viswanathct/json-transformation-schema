@@ -9,10 +9,12 @@ describe('Type - object', () => {
 
 	/* Test Targets */
 	const jts = require('../../../src');
+	const { standardizeOptions } = require('../../../src/core');
 	const { standardizeSchema } = require('../../../src/types/object');
 
 	/* Mocks and Stubs */
 	const complexData = require('../../test-helpers/mocksAndStubs').complex.data;
+	const standardizedOptions = standardizeOptions({});
 
 	/* Tests */
 	test('transform should handle objects of type - object', () => {
@@ -46,7 +48,7 @@ describe('Type - object', () => {
 			},
 		}
 
-		expect(standardizeSchema(schema).properties.field.prop).toEqual('field');
+		expect(standardizeSchema(schema, standardizedOptions).properties.field.prop).toEqual('field');
 	});
 
 	test('standardizeSchema doesn\'t alter existing prop config', () => {
@@ -58,7 +60,7 @@ describe('Type - object', () => {
 			},
 		}
 
-		expect(standardizeSchema(schema).properties.field.prop).toEqual('some-other-field');
+		expect(standardizeSchema(schema, standardizedOptions).properties.field.prop).toEqual('some-other-field');
 	});
 
 	generateTransformationTest({
