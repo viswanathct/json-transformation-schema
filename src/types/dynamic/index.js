@@ -21,4 +21,10 @@ module.exports = {
 		array: (value, schema) =>
 			value.join(schema.delimiter !== undefined ? schema.delimiter : defaultDelimiter),
 	},
+	transform: (value, schema) => {
+		if(schema.trim)
+			value = value.trim();
+
+		return value;
+	},
 };

@@ -5,7 +5,7 @@
 describe('Type - string', () => {
 
 	/* Helpers */
-	const { generateParsingTests, generateTransformationTest } = require("../../test-helpers");
+	const { generateParsingTests } = require("../../test-helpers");
 
 	/* Tests */
 	generateParsingTests('string', {
@@ -32,15 +32,5 @@ describe('Type - string', () => {
 		object: [
 			[{}, '{}'],
 		],
-	});
-
-	generateTransformationTest({
-		desc: 'adheres to the config, trim',
-		data: ' some string ',
-		schema: {
-			type: 'string',
-			trim: true,
-		},
-		expectation: 'some string',
 	});
 });

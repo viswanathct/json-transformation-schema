@@ -76,6 +76,8 @@ $ sh ./setup.sh
 
 * Fill any empty test cases.
 
+* Think of the config, operators, thich would be used process values before output. These could be strings or composable functions.
+
 * Measure and improve performance.
 
 * Documention.
