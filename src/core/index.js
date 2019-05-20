@@ -36,8 +36,8 @@ const detectType = (() => {
 const translate = (() => {
 	const fakeTypeHandler = { parsers: {}, formatters: {} };
 
-	return  (type, value, schema, options) => {
-		const inType = (schema.source || {}).type || type;
+	return  (value, schema, options) => {
+		const inType = (schema.source || {}).targetType || schema.type || inferType(value);
 		const outType = schema.targetType;
 
 		const translator =
@@ -88,22 +88,21 @@ const transform = (value, schema, options) => { //TODO: Try compiling the flow u
 	if(source)
 		value = transform(value, source, options);
 
-	value = schema.prop ? result(value, schema.prop) : value;
+	value = schema.prop ? result(value || {}, schema.prop) : value;
 
 	if(schema.required && value === undefined)
 		throw new error.MissingRequired(schema.prop ? `Missing required prop: ${schema.prop}` : 'Missing required value');
 
 	const type = schema.type;
 	const typeHandler = options.types[type] || types[type] || {};
-	if(typeHandler.transform)
+	if(value !== undefined && typeHandler.transform)
 		value = typeHandler.transform(value, schema, options);
 
-	const transformation = schema.transform;
-	if(transformation)
-		value = transformation(value, schema, options)
+	if(value !== undefined && schema.transform)
+		value = schema.transform(value, schema, options)
 
-	if(schema.targetType)
-		value = translate(type, value, schema, options);
+	if(value !== undefined && schema.targetType)
+		value = translate(value, schema, options);
 
 	if(value === undefined && schema.hasOwnProperty('default'))
 		value = schema.default;
