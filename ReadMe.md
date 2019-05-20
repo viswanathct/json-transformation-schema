@@ -16,7 +16,8 @@ const data = {
 const transformation = {
 	properties: {
 		a: {
-			transform: 'string' // The target type.
+			type: 'number',
+			targetType: 'string',
 		},
 		b: {
 			prop: 'a',

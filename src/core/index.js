@@ -38,7 +38,7 @@ const translate = (() => {
 
 	return  (type, value, schema, options) => {
 		const inType = (schema.source || {}).type || type;
-		const outType = schema.transform;
+		const outType = schema.targetType;
 
 		const translator =
 			((options.types[inType] || fakeTypeHandler).formatters || {})[outType]
@@ -99,11 +99,11 @@ const transform = (value, schema, options) => { //TODO: Try compiling the flow u
 		value = typeHandler.transform(value, schema, options);
 
 	const transformation = schema.transform;
-	if(transformation) {
-		value = typeof transformation !== 'function'
-			? translate(type, value, schema, options)
-			: transformation(value, schema, options)
-	}
+	if(transformation)
+		value = transformation(value, schema, options)
+
+	if(schema.targetType)
+		value = translate(type, value, schema, options);
 
 	if(value === undefined && schema.hasOwnProperty('default'))
 		value = schema.default;

@@ -91,7 +91,7 @@ describe('Type - object', () => {
 		schema: {
 			items: {
 				type: 'number',
-				transform: 'string',
+				targetType: 'string',
 			},
 			properties: {
 				someNumber: {},
@@ -107,7 +107,7 @@ describe('Type - object', () => {
 		data: JSON.stringify(complex.data),
 		schema: {
 			type: 'string',
-			transform: 'object',
+			targetType: 'object',
 		},
 		expectation: complex.data,
 	});

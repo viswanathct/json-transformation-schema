@@ -65,7 +65,7 @@ describe('Functionalities of transform', () => {
 			properties: {
 				a: {
 					type: 'integer',
-					transform: 'string',
+					targetType: 'string',
 				},
 			},
 		};

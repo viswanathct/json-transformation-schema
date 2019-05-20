@@ -27,7 +27,7 @@ const examples = {
 			properties: {
 				a: {
 					type: 'number',
-					transform: 'string',
+					targetType: 'string',
 				},
 			},
 		};

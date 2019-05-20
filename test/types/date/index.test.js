@@ -16,7 +16,7 @@ describe('Type - object', () => {
 		const expectation = fixedDate;
 		const schema = {
 			type: 'string',
-			transform: 'date',
+			targetType: 'date',
 		};
 
 		verifyTransformation({data, schema, expectation});
@@ -27,7 +27,7 @@ describe('Type - object', () => {
 		const expectation = fixedDate.toISOString();
 		const schema = {
 			type: 'date',
-			transform: 'string',
+			targetType: 'string',
 		};
 
 		verifyTransformation({data, schema, expectation});
@@ -38,7 +38,7 @@ describe('Type - object', () => {
 		const expectation = fixedDate.getUTCFullYear().toString();
 		const schema = {
 			type: 'date',
-			transform: 'string',
+			targetType: 'string',
 			format: 'yyyy',
 		};
 

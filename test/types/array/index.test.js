@@ -12,7 +12,7 @@ describe('Type - array', () => {
 		const data = 'a, b';
 		const schema = {
 			type: 'string',
-			transform: 'array',
+			targetType: 'array',
 		};
 		const expectation = ['a', 'b'];
 
@@ -23,7 +23,7 @@ describe('Type - array', () => {
 		const data = 'a|b';
 		const schema = {
 			type: 'string',
-			transform: 'array',
+			targetType: 'array',
 			delimiter: '|',
 		};
 		const expectation = ['a', 'b'];
@@ -37,7 +37,7 @@ describe('Type - array', () => {
 			type: 'array',
 			items: {
 				type: 'string',
-				transform: 'integer',
+				targetType: 'integer',
 			},
 		};
 		const expectation = [1, 2, 3];

@@ -12,7 +12,7 @@ describe('Functionality of the core', () => {
 	const { standardizeOptions } = require('../../src/core');
 	const verifyTransformation = ({data, schema, expectation, info = ''}) => {
 		info && console.log(info);
-		const transformed = transform(data, standardizeSchema(schema, standardizedOptions), standardizedOptions); //NOTE: The test helper, verifyTransformation could not be used, as the test is for a different function.
+		const transformed = transform(data, standardizeSchema(schema, standardizedOptions), standardizedOptions);
 		expect(transformed).toEqual(expectation);
 		return transformed;
 	}
@@ -66,7 +66,7 @@ describe('Functionality of the core', () => {
 		const data = '1.1';
 		const schema = {
 			type: 'string',
-			transform: 'integer',
+			targetType: 'integer',
 		};
 		const expectation = 1;
 
@@ -89,6 +89,18 @@ describe('Functionality of the core', () => {
 			},
 		};
 		const expectation = data;
+
+		verifyTransformation({data, schema, expectation});
+	});
+
+	test.only('transform passes values to any configured tranform calls, before converting them to target type', () => {
+		const data = 1;
+		const schema = {
+			transform: (x) => x + 1,
+			type: 'number',
+			targetType: 'string',
+		};
+		const expectation = '2';
 
 		verifyTransformation({data, schema, expectation});
 	});
