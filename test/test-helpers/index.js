@@ -39,6 +39,21 @@ const generateParsingTests = (targetType, conversions) =>
 			})
 		));
 
+const generateFormattingTests = (sourceType, conversions) =>
+	entries(conversions).map(([targetType, conversionPairs]) =>
+		test(`type - ${sourceType} formats to type - ${targetType}`, () =>
+			conversionPairs.forEach((conversionPair) => {
+				const [inValue, outValue, schemaExtensions] = conversionPair;
+				const schema = assign({
+					source: { type: sourceType, preserve: true },
+					type: sourceType,
+					transform: targetType,
+				}, schemaExtensions);
+
+				expect(jts.transformer(schema).transform(inValue)).toEqual(outValue);
+			})
+		));
+
 const verifyTransformation = ({data, schema, expectation, desc = ''}) => {
 	desc && console.log(desc);
 	const transformed = jts.transformer(schema).transform(data);
@@ -58,4 +73,5 @@ module.exports = {
 	generateParsingTests,
 	verifyTransformation,
 	generateTransformationTest,
+	generateFormattingTests,
 }

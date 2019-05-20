@@ -3,28 +3,29 @@
 *
 */
 
-/* Imports */
-const { delimiter: defaultDelimiter } = require('../../constants/defaults');
-const { valueFn } = require('../../core/utils');
+/* Delegates */
+const types = require('../../types');
 
 /* Helpers */
-const toString = (value) => value.toString()
+const { inferType } = require('@laufire/utils').reflection;
+const { returnFirstParam } = require('../../core/utils');
+
+const getFormatter = (targetType) => (value, schema, options) => {
+	const sourceType = inferType(value);
+	return (
+		((types[sourceType] || {}).formatters || {})[targetType]
+		|| ((types[targetType] || {}).parsers || {})[sourceType]
+		|| returnFirstParam)(value, schema, options);
+}
 
 /* Exports */
 module.exports = {
-	parsers: {
-		integer: toString,
-		number: toString,
-		boolean: toString,
-		null: () => '',
-		object: valueFn(JSON.stringify),
-		array: (value, schema) =>
-			value.join(schema.delimiter !== undefined ? schema.delimiter : defaultDelimiter),
-	},
-	transform: (value, schema) => {
-		if(schema.trim)
-			value = value.trim();
-
-		return value;
+	formatters: {
+		integer: getFormatter('integer'),
+		number: getFormatter('number'),
+		boolean: getFormatter('boolean'),
+		null: () => null,
+		object: getFormatter('object'),
+		array: getFormatter('array'),
 	},
 };

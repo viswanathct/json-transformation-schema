@@ -47,4 +47,8 @@ module.exports = {
 
 		return ret;
 	},
+	parsers: {
+		string: (value) =>
+			JSON.parse(value),
+	},
 };

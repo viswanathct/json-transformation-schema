@@ -13,7 +13,7 @@ describe('Type - object', () => {
 	const { standardizeSchema } = require('../../../src/types/object');
 
 	/* Mocks and Stubs */
-	const complexData = require('../../test-helpers/mocksAndStubs').complex.data;
+	const { complex } = require('../../test-helpers/mocksAndStubs');
 	const standardizedOptions = standardizeOptions({});
 
 	/* Tests */
@@ -32,7 +32,7 @@ describe('Type - object', () => {
 			},
 		};
 
-		expect(jts.transformer(schema).transform(complexData)).toEqual({
+		expect(jts.transformer(schema).transform(complex.data)).toEqual({
 			parent: {
 				child: {
 					grandChild: 'grandChild',
@@ -65,7 +65,7 @@ describe('Type - object', () => {
 
 	generateTransformationTest({
 		desc: 'properties aren\'t preserved by default',
-		data: complexData,
+		data: complex.data,
 		schema: {
 			properties: {
 				single: {},
@@ -78,16 +78,16 @@ describe('Type - object', () => {
 
 	generateTransformationTest({
 		desc: 'properties are preserved when the "preserve" config is set to true',
-		data: complexData,
+		data: complex.data,
 		schema: {
 			preserve: true,
 		},
-		expectation: complexData,
+		expectation: complex.data,
 	});
 
 	generateTransformationTest({
 		desc: 'configs from the items object are applied to all the properties',
-		data: complexData,
+		data: complex.data,
 		schema: {
 			items: {
 				type: 'number',
@@ -100,5 +100,15 @@ describe('Type - object', () => {
 		expectation: {
 			someNumber: '1',
 		},
+	});
+
+	generateTransformationTest({
+		desc: 'objects can be parsed from JSON strings',
+		data: JSON.stringify(complex.data),
+		schema: {
+			type: 'string',
+			transform: 'object',
+		},
+		expectation: complex.data,
 	});
 });
