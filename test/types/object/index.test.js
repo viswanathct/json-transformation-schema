@@ -90,6 +90,7 @@ describe('Type - object', () => {
 		data: complexData,
 		schema: {
 			items: {
+				type: 'number',
 				transform: 'string',
 			},
 			properties: {

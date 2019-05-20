@@ -37,7 +37,10 @@ describe('Type - string', () => {
 	generateTransformationTest({
 		desc: 'adheres to the config, trim',
 		data: ' some string ',
-		schema: { trim: true },
+		schema: {
+			type: 'string',
+			trim: true,
+		},
 		expectation: 'some string',
 	});
 });

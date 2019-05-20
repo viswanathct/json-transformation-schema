@@ -61,7 +61,7 @@ const standardizeOptions = (options) =>
  */
 const standardizeSchema = (schema, options) => {
 	if(inferType(schema) == 'function') //NOTE: Async Functions aren't supported.
-		return { type: 'function', transform: schema }
+		schema = { type: 'function', transform: schema }
 
 	const { source } = schema;
 	const type = schema.type || detectType(schema);
@@ -93,7 +93,7 @@ const transform = (value, schema, options) => { //TODO: Try compiling the flow u
 	if(schema.required && value === undefined)
 		throw new error.MissingRequired(schema.prop ? `Missing required prop: ${schema.prop}` : 'Missing required value');
 
-	const type = schema.type || inferType(value);
+	const type = schema.type;
 	const typeHandler = options.types[type] || types[type] || {};
 	if(typeHandler.transform)
 		value = typeHandler.transform(value, schema, options);

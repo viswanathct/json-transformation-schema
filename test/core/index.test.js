@@ -64,7 +64,10 @@ describe('Functionality of the core', () => {
 
 	test('transform handles flat schemas for primitive types', () => {
 		const data = '1.1';
-		const schema = { transform: 'integer' };
+		const schema = {
+			type: 'string',
+			transform: 'integer',
+		};
 		const expectation = 1;
 
 		verifyTransformation({data, schema, expectation});

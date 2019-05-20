@@ -98,6 +98,8 @@ $ sh ./setup.sh
 
 # DevNotes
 
+* For an example on extending jts, refer [jts-templates](https://github.com/viswanathct/jts-templates).
+
 * The reason for throwing errors, instead of collecting them are many:
 	* It reduces the learning curve for new comers.
 	* It makes extending the core easy.
