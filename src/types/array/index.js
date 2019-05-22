@@ -5,10 +5,13 @@
 * NOTE: Arrays support pattern delimiters.
 */
 
-/* Imports */
+/* Helpers */
 const { assign } = require('@laufire/utils').collection;
-const { delimiter: defaultDelimiter } = require('../../constants/defaults');
+const { inferType } = require('@laufire/utils').reflection;
 const { standardizeSchema, transform } = require('../../core');
+
+/* Data */
+const { delimiter: defaultDelimiter } = require('../../constants/defaults');
 
 /* Exports */
 module.exports = {
@@ -24,4 +27,6 @@ module.exports = {
 		schema.items
 			? values.map((item) => transform(item, schema.items, options))
 			: values,
+
+	validate: (value) => inferType(value) === 'array',
 };

@@ -5,7 +5,7 @@
 describe('Type - object', () => {
 
 	/* Helpers */
-	const { verifyTransformation } = require("../../test-helpers");
+	const { verifyTransformation, generateValidationTests } = require("../../test-helpers");
 
 	/* Data */
 	const fixedDate = new Date('2019-01-01T00:00:00.000Z');
@@ -44,4 +44,6 @@ describe('Type - object', () => {
 
 		verifyTransformation({data, schema, expectation});
 	});
+
+	generateValidationTests('date');
 });

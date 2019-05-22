@@ -5,7 +5,7 @@
 describe('Type - boolean', () => {
 
 	/* Helpers */
-	const { generateParsingTests } = require("../../test-helpers");
+	const { generateParsingTests, generateValidationTests } = require("../../test-helpers");
 
 	/* Tests */
 	generateParsingTests('boolean', {
@@ -33,4 +33,6 @@ describe('Type - boolean', () => {
 			[null, false],
 		],
 	});
+
+	generateValidationTests('boolean');
 });

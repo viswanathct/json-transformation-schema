@@ -5,7 +5,7 @@
 describe('Type - integer', () => {
 
 	/* Helpers */
-	const { generateParsingTests } = require("../../test-helpers");
+	const { generateParsingTests, generateValidationTests } = require("../../test-helpers");
 
 	/* Tests */
 	generateParsingTests('integer', {
@@ -27,4 +27,6 @@ describe('Type - integer', () => {
 			[null, 0],
 		],
 	});
+
+	generateValidationTests('integer');
 });

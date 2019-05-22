@@ -7,7 +7,7 @@
 const { valueFn } = require('../../core/utils');
 
 /* Helpers */
-const { round } = Math;
+const { floor, round } = Math;
 
 /* Exports */
 module.exports = {
@@ -17,4 +17,5 @@ module.exports = {
 		string: valueFn(parseInt),
 		null: () => 0,
 	},
+	validate: (value) => typeof value === 'number' && floor(value) === value,
 };

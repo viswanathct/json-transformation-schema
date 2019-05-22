@@ -5,7 +5,7 @@
 describe('Type - string', () => {
 
 	/* Helpers */
-	const { generateParsingTests } = require("../../test-helpers");
+	const { generateParsingTests, generateValidationTests } = require("../../test-helpers");
 
 	/* Tests */
 	generateParsingTests('string', {
@@ -33,4 +33,6 @@ describe('Type - string', () => {
 			[{}, '{}'],
 		],
 	});
+
+	generateValidationTests('string');
 });

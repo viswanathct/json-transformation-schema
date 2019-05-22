@@ -3,9 +3,10 @@
 *
 */
 
-/* Imports */
+/* Helpers */
 const { assign, collect, keys, merge, select } = require('@laufire/utils').collection;
 const { standardizeSchema, transform } = require('../../core');
+const { inferType } = require('@laufire/utils').reflection;
 
 /* Config */
 const schemaDefaults = {
@@ -51,4 +52,5 @@ module.exports = {
 		string: (value) =>
 			JSON.parse(value),
 	},
+	validate: (value) => inferType(value) === 'object',
 };

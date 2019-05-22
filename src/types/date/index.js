@@ -7,6 +7,11 @@
 
 /* Imports */
 const { DateTime } = require('luxon');
+
+/* Helpers */
+const { inferType } = require('@laufire/utils').reflection;
+
+/* Data */
 const { dateFormat: defaultDateFormat } = require('../../constants/defaults');
 
 /* Exports */
@@ -19,4 +24,6 @@ module.exports = {
 		string: (value, schema) =>
 			DateTime.fromJSDate(value).toUTC().toFormat(schema.format || defaultDateFormat),
 	},
+
+	validate: (value) => inferType(value) === 'date' && isNaN(value),
 };

@@ -21,4 +21,5 @@ module.exports = {
 		array: (value, schema) =>
 			value.join(schema.delimiter !== undefined ? schema.delimiter : defaultDelimiter),
 	},
+	validate: (value) => typeof value === 'string',
 };

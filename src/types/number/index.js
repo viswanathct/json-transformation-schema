@@ -15,4 +15,6 @@ module.exports = {
 		string: valueFn(parseFloat),
 		null: () => 0,
 	},
+
+	validate: (value) =>typeof value === 'number' && !isNaN(value),
 };

@@ -6,7 +6,10 @@
 const jts = require('../../src');
 
 /* Helpers */
-const { assign, entries } = Object;
+const { assign, entries, keys } = Object;
+
+/* Data */
+const errors = require('../../src/core/errors');
 
 /* Exports */
 const expectMockCalls = (fn) => (expectation) =>
@@ -41,6 +44,45 @@ const generateFormattingTests = (sourceType, conversions) =>
 			})
 		));
 
+const generateValidationTests = (() => {
+	const typeSamples = {
+		string: 'some-string',
+		integer: 1,
+		number: 3.14,
+		boolean: true,
+		object: {},
+		array: [],
+		date: new Date(),
+	}
+
+	return (type, excludeTypes = []) => {
+		excludeTypes = excludeTypes.slice(0).concat(type);
+		const validateAgainst = keys(typeSamples).filter((type) => !excludeTypes.includes(type));
+		const schema = {
+			type,
+			validate: true,
+		};
+		const options = {
+			strict: true,
+		};
+
+		validateAgainst.forEach((invalidType) =>
+			test(`${typeSamples[invalidType]} is not of type - ${type}`, () => {
+				const transformation = () =>
+					jts.transformer(schema, options).transform(typeSamples[invalidType]);
+
+				expect(transformation).toThrow(errors.InvalidType);
+			}));
+
+		test(`${typeSamples[type]} is of type - ${type}`, () => {
+			const transformation = () =>
+				jts.transformer(schema, options).transform(typeSamples[testedType]);
+
+			expect(transformation).not.toThrow(errors.InvalidType);
+		});
+	}
+})();
+
 const verifyTransformation = ({data, schema, expectation, desc = ''}) => {
 	desc && console.log(desc);
 	const transformed = jts.transformer(schema).transform(data);
@@ -60,4 +102,5 @@ module.exports = {
 	verifyTransformation,
 	generateTransformationTest,
 	generateFormattingTests,
+	generateValidationTests,
 }

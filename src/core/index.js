@@ -5,7 +5,7 @@
 /* Data */
 const { transformerOptions: defaultTransformerOptions } = require('../constants/defaults');
 const types = require('../types');
-const error = require('./errors');
+const errors = require('./errors');
 const typesByConfigMarkers = [
 	['properties', 'object'],
 	['items', 'array'], //NOTE: Though objects too could have the items config, arrays are considered to be the primary user.
@@ -91,10 +91,13 @@ const transform = (value, schema, options) => { //TODO: Try compiling the flow u
 		value = transform(value, source, options);
 
 	if(schema.required && value === undefined)
-		throw new error.MissingRequired(schema.prop ? `Missing required prop: ${schema.prop}` : 'Missing required value');
+		throw new errors.MissingRequired(schema.prop ? `Missing required prop: ${schema.prop}` : 'Missing required value');
 
 	const type = schema.type;
 	const typeHandler = options.types[type] || types[type] || {};
+	if(schema.validate && typeHandler.validate && !typeHandler.validate(value))
+		throw new errors.InvalidType(`The vale is not of type: ${type}`);
+
 	if(value !== undefined && typeHandler.transform)
 		value = typeHandler.transform(value, schema, options);
 

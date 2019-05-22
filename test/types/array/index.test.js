@@ -5,7 +5,7 @@
 describe('Type - array', () => {
 
 	/* Helpers */
-	const { verifyTransformation } = require('../../test-helpers');
+	const { verifyTransformation, generateValidationTests } = require('../../test-helpers');
 
 	/* Tests */
 	test('transform should transform a default delimited string to an array', () => {
@@ -44,4 +44,6 @@ describe('Type - array', () => {
 
 		verifyTransformation({ data, schema, expectation });
 	});
+
+	generateValidationTests('array');
 });

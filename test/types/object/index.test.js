@@ -5,7 +5,7 @@
 describe('Type - object', () => {
 
 	/* Helpers */
-	const { generateTransformationTest } = require("../../test-helpers");
+	const { generateTransformationTest, generateValidationTests } = require("../../test-helpers");
 
 	/* Test Targets */
 	const jts = require('../../../src');
@@ -111,4 +111,6 @@ describe('Type - object', () => {
 		},
 		expectation: complex.data,
 	});
+
+	generateValidationTests('object');
 });

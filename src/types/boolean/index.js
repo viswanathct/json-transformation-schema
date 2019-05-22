@@ -20,4 +20,5 @@ module.exports = {
 		array: (value) => Boolean(value.length),
 		object: (value) => Boolean(keys(value).length),
 	},
+	validate: (value) => typeof value === 'boolean',
 };
