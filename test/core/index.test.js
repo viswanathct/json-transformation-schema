@@ -93,7 +93,7 @@ describe('Functionality of the core', () => {
 		verifyTransformation({data, schema, expectation});
 	});
 
-	test.only('transform passes values to any configured tranform calls, before converting them to target type', () => {
+	test('transform passes values to any configured tranform calls, before converting them to target type', () => {
 		const data = 1;
 		const schema = {
 			transform: (x) => x + 1,
@@ -121,7 +121,7 @@ describe('Functionality of the core', () => {
 		verifyTransformation({data, schema, expectation});
 	});
 
-	test('transformation allows the access of decendant values', () => {
+	test('transformation allows the access of descendant values', () => {
 		const data = mns.complex.data;
 		const schema = {
 			prop: 'parent/child/grandChild',

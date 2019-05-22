@@ -4,7 +4,7 @@
 */
 
 /* Imports */
-const { assign, collect, keys, select } = require('@laufire/utils').collection;
+const { assign, collect, keys, merge, select } = require('@laufire/utils').collection;
 const { standardizeSchema, transform } = require('../../core');
 
 /* Config */
@@ -17,10 +17,10 @@ module.exports = {
 	standardizeSchema: (schema, options) => {
 		const itemsConfig = schema.items;
 		const properties = collect(schema.properties || {}, (propSchema, prop) =>
-			assign({ prop }, itemsConfig, standardizeSchema(propSchema, options))
+			merge({ prop }, itemsConfig, standardizeSchema(propSchema, options))
 		);
 
-		return assign({}, schemaDefaults, schema, { properties });
+		return merge({}, schemaDefaults, schema, { properties });
 	},
 	transform: (data, schema, options) => {
 		const ret = {};

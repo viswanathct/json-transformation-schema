@@ -85,6 +85,37 @@ describe('Functionalities of transform', () => {
 		});
 	});
 
+	test('transform allows for pseudo types', () => {
+		const schema = {
+			properties: {
+				someDateString: {
+					type: 'date-string',
+				},
+			},
+		};
+		const pseudoTypes = {
+			'date-string': {
+				source: {
+					type: 'string',
+					targetType: 'date',
+					format: 'yyyy-MM-dd',
+				},
+				transform: (value) => new Date(value.setDate(20)),
+				format: 'yyyy-MM-dd',
+				targetType: 'string',
+			},
+		};
+		const transformation = () =>
+			jts.transformer(schema, { typeDefaults: pseudoTypes })
+				.transform({
+					someDateString: '2020-02-02',
+				});
+
+		expect(transformation()).toEqual({
+			someDateString: '2020-02-20',
+		});
+	});
+
 
 	test('transform throws external errors, even when strict mode is set to false', () => {
 		const transformation = () => jts.transformer(

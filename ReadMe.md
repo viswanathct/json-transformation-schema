@@ -73,8 +73,6 @@ $ sh ./setup.sh
 
 ## ToDo
 
-* Think of a simpler, less-verbose, non JSON schema mode. This could well be a separate package. This might resemble the format used in doctable's render. This also could use wrapping functions, which act as schema builders.
-
 * Fill any empty test cases.
 
 * Think of the config, operators, thich would be used process values before output. These could be strings or composable functions.

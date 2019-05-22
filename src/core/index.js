@@ -12,7 +12,7 @@ const typesByConfigMarkers = [
 ];
 
 /* Helpers */
-const { assign, clone, keys, result } = require('@laufire/utils').collection;
+const { keys, merge, result } = require('@laufire/utils').collection;
 const { inferType } = require('@laufire/utils').reflection;
 
 const detectType = (() => {
@@ -52,7 +52,7 @@ const translate = (() => {
 
 /* Exports */
 const standardizeOptions = (options) =>
-	assign(clone(defaultTransformerOptions), clone(options));
+	merge({}, defaultTransformerOptions, options);
 
 /**
  *
@@ -69,7 +69,7 @@ const standardizeSchema = (schema, options) => {
 
 	return {
 		...options.defaults,
-		...(type && { type, ...(options.typeDefaults)[type] }),
+		...(type && merge({ type }, options.typeDefaults[type])),
 		...schema,
 		...(source && { source: standardizeSchema(source, options) }),
 		...(typeSchemaStandaridizer && typeSchemaStandaridizer(schema, options)),
@@ -85,10 +85,10 @@ const standardizeSchema = (schema, options) => {
 const transform = (value, schema, options) => { //TODO: Try compiling the flow using eval, so that every tranformation has its own function, without branching.
 	const source = schema.source;
 
+	value = schema.prop ? result(value || {}, schema.prop) : value; // Allow for accessing descendants, through the config - prop.
+
 	if(source)
 		value = transform(value, source, options);
-
-	value = schema.prop ? result(value || {}, schema.prop) : value;
 
 	if(schema.required && value === undefined)
 		throw new error.MissingRequired(schema.prop ? `Missing required prop: ${schema.prop}` : 'Missing required value');
