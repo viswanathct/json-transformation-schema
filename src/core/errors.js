@@ -25,7 +25,8 @@ const buildCustomErrorClass = (name) => {
 }
 
 /* Config */
-// const { fromEntries } = require('@laufire/utils').collection; //NOTE: Automatic class generation isn't done, so to help the IDE-s with auto-suggesting.
+//NOTE: Automatic class generation isn't done, so to help the IDE-s with auto-suggesting.
+// const { fromEntries } = require('@laufire/utils').collection;
 
 // const customErrors = [
 // 	'MissingRequired',

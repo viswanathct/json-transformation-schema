@@ -93,7 +93,7 @@ describe('Functionality of the core', () => {
 		verifyTransformation({data, schema, expectation});
 	});
 
-	test('transform passes values to any configured tranform calls, before converting them to target type', () => {
+	test('transform passes values to any configured transform calls, before converting them to target type', () => {
 		const data = 1;
 		const schema = {
 			transform: (x) => x + 1,

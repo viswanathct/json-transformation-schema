@@ -1,5 +1,5 @@
 /**
-* Type - dynamic
+* Type - string
 *
 */
 

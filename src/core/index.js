@@ -65,14 +65,14 @@ const standardizeSchema = (schema, options) => {
 
 	const { source } = schema;
 	const type = schema.type || detectType(schema);
-	const typeSchemaStandaridizer = (options.types[type] || types[type] || {}).standardizeSchema;
+	const typeSchemaStandardizer = (options.types[type] || types[type] || {}).standardizeSchema;
 
 	return {
 		...options.defaults,
 		...(type && merge({ type }, options.typeDefaults[type])),
 		...schema,
 		...(source && { source: standardizeSchema(source, options) }),
-		...(typeSchemaStandaridizer && typeSchemaStandaridizer(schema, options)),
+		...(typeSchemaStandardizer && typeSchemaStandardizer(schema, options)),
 	}
 }
 
@@ -82,7 +82,7 @@ const standardizeSchema = (schema, options) => {
  * @param {*} schema - A standardized schema to base the transformation on.
  * @param {*} options - Standardized options for the transformation.
  */
-const transform = (value, schema, options) => { //TODO: Try compiling the flow using eval, so that every tranformation has its own function, without branching.
+const transform = (value, schema, options) => { //TODO: Try compiling the flow using eval, so that every transformation has its own function, without branching.
 	const source = schema.source;
 
 	value = schema.prop ? result(value || {}, schema.prop) : value; // Allow for accessing descendants, through the config - prop.
@@ -96,7 +96,7 @@ const transform = (value, schema, options) => { //TODO: Try compiling the flow u
 	const type = schema.type;
 	const typeHandler = options.types[type] || types[type] || {};
 	if(schema.validate && typeHandler.validate && !typeHandler.validate(value))
-		throw new errors.InvalidType(`The vale is not of type: ${type}`);
+		throw new errors.InvalidType(`The value is not of type: ${type}`);
 
 	if(value !== undefined && typeHandler.transform)
 		value = typeHandler.transform(value, schema, options);

@@ -2,7 +2,7 @@
 * Type - date
 *
 * TODO: Allow handling of timezones.
-* NOTE: The reason for choosing luxon over datefns is that the parsing function of datefns doesn't support custom formats. This seems to be fixed in the upcoming veriosn (v2.0.0).
+* NOTE: The reason for choosing luxon over datefns is that, the parsing function of datefns doesn't support custom formats. This seems to be fixed in the upcoming version (v2.0.0).
 */
 
 /* Imports */
