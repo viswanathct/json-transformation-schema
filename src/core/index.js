@@ -102,7 +102,7 @@ const transform = (value, schema, options) => { //TODO: Try compiling the flow u
 		value = typeHandler.transform(value, schema, options);
 
 	if(value !== undefined && schema.transform)
-		value = schema.transform(value, schema, options)
+		value = schema.transform(value, schema, options, types)
 
 	if(value !== undefined && schema.targetType)
 		value = translate(value, schema, options);
