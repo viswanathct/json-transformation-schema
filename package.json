@@ -47,6 +47,6 @@
   "dependencies": {
     "@laufire/utils": "0.0.11",
     "lazy-cache": "^2.0.2",
-    "luxon": "^1.17.1"
+    "luxon": "^2.5.2"
   }
 }
